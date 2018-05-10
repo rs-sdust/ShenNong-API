@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SunGolden.Keygen</name>
+    </assembly>
+    <members>
+        <member name="T:SunGolden.Keygen.Program">
+            <summary>
+            Class Program.
+            </summary>
+        </member>
+        <member name="M:SunGolden.Keygen.Program.Main(System.String[])">
+            <summary>
+            Defines the entry point of the application.
+            </summary>
+            <param name="args">The arguments.</param>
+        </member>
+    </members>
+</doc>
