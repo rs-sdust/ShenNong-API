@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SunGolden.Encryption</name>
+    </assembly>
+    <members>
+        <member name="T:SunGolden.Encryption.DEncrypt">
+            <summary>
+            Encrypt 的摘要说明。
+            </summary>
+        </member>
+        <member name="M:SunGolden.Encryption.DEncrypt.#ctor">
+            <summary>
+            构造方法
+            </summary>
+        </member>
+        <member name="M:SunGolden.Encryption.DEncrypt.Encrypt(System.String)">
+            <summary>
+            使用缺省密钥字符串加密string
+            </summary>
+            <param name="original">明文</param>
+            <returns>密文</returns>
+        </member>
+        <member name="M:SunGolden.Encryption.DEncrypt.Decrypt(System.String)">
+            <summary>
+            使用缺省密钥字符串解密string
+            </summary>
+            <param name="original">密文</param>
+            <returns>明文</returns>
+        </member>
+        <member name="M:SunGolden.Encryption.DEncrypt.Encrypt(System.String,System.String)">
+            <summary>
+            使用给定密钥字符串加密string
+            </summary>
+            <param name="original">原始文字</param>
+            <param name="key">密钥</param>
+            <returns>密文</returns>
+        </member>
+        <member name="M:SunGolden.Encryption.DEncrypt.Decrypt(System.String,System.String)">
+            <summary>
+            使用给定密钥字符串解密string
+            </summary>
+            <param name="original">密文</param>
+            <param name="key">密钥</param>
+            <returns>明文</returns>
+        </member>
+        <member name="M:SunGolden.Encryption.DEncrypt.Decrypt(System.String,System.String,System.Text.Encoding)">
+            <summary>
+            使用给定密钥字符串解密string,返回指定编码方式明文
+            </summary>
+            <param name="encrypted">密文</param>
+            <param name="key">密钥</param>
+            <param name="encoding">字符编码方案</param>
+            <returns>明文</returns>
+        </member>
+        <member name="M:SunGolden.Encryption.DEncrypt.Decrypt(System.Byte[])">
+            <summary>
+            使用缺省密钥字符串解密byte[]
+            </summary>
+            <param name="encrypted">密文</param>
+            <returns>明文</returns>
+        </member>
+        <member name="M:SunGolden.Encryption.DEncrypt.Encrypt(System.Byte[])">
+            <summary>
+            使用缺省密钥字符串加密
+            </summary>
+            <param name="original">原始数据</param>
+            <returns>密文</returns>
+        </member>
+        <member name="M:SunGolden.Encryption.DEncrypt.MakeMD5(System.Byte[])">
+            <summary>
+            生成MD5摘要
+            </summary>
+            <param name="original">数据源</param>
+            <returns>摘要</returns>
+        </member>
+        <member name="M:SunGolden.Encryption.DEncrypt.Encrypt(System.Byte[],System.Byte[])">
+            <summary>
+            使用给定密钥加密
+            </summary>
+            <param name="original">明文</param>
+            <param name="key">密钥</param>
+            <returns>密文</returns>
+        </member>
+        <member name="M:SunGolden.Encryption.DEncrypt.Decrypt(System.Byte[],System.Byte[])">
+            <summary>
+            使用给定密钥解密数据
+            </summary>
+            <param name="encrypted">密文</param>
+            <param name="key">密钥</param>
+            <returns>明文</returns>
+        </member>
+        <member name="T:SunGolden.Encryption.DESEncrypt">
+            <summary>
+            DES加密/解密类。
+            </summary>
+        </member>
+        <member name="M:SunGolden.Encryption.DESEncrypt.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SunGolden.Encryption.DESEncrypt"/> class.
+            </summary>
+        </member>
+        <member name="M:SunGolden.Encryption.DESEncrypt.Encrypt(System.String)">
+            <summary>
+            加密
+            </summary>
+            <param name="Text">The text.</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="M:SunGolden.Encryption.DESEncrypt.Encrypt(System.String,System.String)">
+            <summary>
+            加密数据
+            </summary>
+            <param name="Text">The text.</param>
+            <param name="sKey">The s key.</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="M:SunGolden.Encryption.DESEncrypt.Decrypt(System.String)">
+            <summary>
+            解密
+            </summary>
+            <param name="Text">The text.</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="M:SunGolden.Encryption.DESEncrypt.Decrypt(System.String,System.String)">
+            <summary>
+            解密数据
+            </summary>
+            <param name="Text">The text.</param>
+            <param name="sKey">The s key.</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="T:SunGolden.Encryption.HashEncode">
+            <summary>
+            得到随机安全码（哈希加密）。
+            </summary>
+        </member>
+        <member name="M:SunGolden.Encryption.HashEncode.GetSecurity">
+            <summary>
+            得到随机哈希加密字符串
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.Encryption.HashEncode.GetRandomValue">
+            <summary>
+            得到一个随机数值
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.Encryption.HashEncode.HashEncoding(System.String)">
+            <summary>
+            哈希加密一个字符串
+            </summary>
+            <param name="Security"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SunGolden.Encryption.RSACryption">
+            <summary> 
+            RSA加密解密及RSA签名和验证
+            </summary> 
+        </member>
+        <member name="M:SunGolden.Encryption.RSACryption.RSAKey(System.String@,System.String@)">
+            <summary>
+            RSA 的密钥产生 产生私钥 和公钥 
+            </summary>
+            <param name="xmlKeys"></param>
+            <param name="xmlPublicKey"></param>
+        </member>
+    </members>
+</doc>

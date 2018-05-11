@@ -1,0 +1,574 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SunGolden.DBUtils</name>
+    </assembly>
+    <members>
+        <member name="T:SunGolden.DBUtils.DbUtility">
+            <summary>
+            通用数据库访问类，封装常见数据库操作
+            </summary>
+        </member>
+        <member name="M:SunGolden.DBUtils.DbUtility.#ctor(System.String,SunGolden.DBUtils.DbProviderType)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="connectionString">数据库连接字符串</param>
+            <param name="providerType">数据库类型枚举，参见<paramref name="providerType"/></param>
+        </member>
+        <member name="M:SunGolden.DBUtils.DbUtility.ExecuteNonQuery(System.String,System.Collections.Generic.IList{System.Data.Common.DbParameter})">
+            <summary>   
+            对数据库执行增删改操作，返回受影响的行数。   
+            </summary>   
+            <param name="sql">要执行的增删改的SQL语句</param>   
+            <param name="parameters">执行增删改语句所需要的参数</param>
+            <returns></returns>  
+        </member>
+        <member name="M:SunGolden.DBUtils.DbUtility.ExecuteNonQuery(System.String,System.Collections.Generic.IList{System.Data.Common.DbParameter},System.Data.CommandType)">
+            <summary>   
+            对数据库执行增删改操作，返回受影响的行数。   
+            </summary>   
+            <param name="sql">要执行的增删改的SQL语句</param>   
+            <param name="parameters">执行增删改语句所需要的参数</param>
+            <param name="commandType">执行的SQL语句的类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.DbUtility.ExecuteReader(System.String,System.Collections.Generic.IList{System.Data.Common.DbParameter})">
+            <summary>   
+            执行一个查询语句，返回一个关联的DataReader实例   
+            </summary>   
+            <param name="sql">要执行的查询语句</param>   
+            <param name="parameters">执行SQL查询语句所需要的参数</param>
+            <returns></returns> 
+        </member>
+        <member name="M:SunGolden.DBUtils.DbUtility.ExecuteReader(System.String,System.Collections.Generic.IList{System.Data.Common.DbParameter},System.Data.CommandType)">
+            <summary>   
+            执行一个查询语句，返回一个关联的DataReader实例   
+            </summary>   
+            <param name="sql">要执行的查询语句</param>   
+            <param name="parameters">执行SQL查询语句所需要的参数</param>
+            <param name="commandType">执行的SQL语句的类型</param>
+            <returns></returns> 
+        </member>
+        <member name="M:SunGolden.DBUtils.DbUtility.ExecuteDataTable(System.String,System.Collections.Generic.IList{System.Data.Common.DbParameter})">
+            <summary>   
+            执行一个查询语句，返回一个包含查询结果的DataTable   
+            </summary>   
+            <param name="sql">要执行的查询语句</param>   
+            <param name="parameters">执行SQL查询语句所需要的参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.DbUtility.ExecuteDataTable(System.String,System.Collections.Generic.IList{System.Data.Common.DbParameter},System.Data.CommandType)">
+            <summary>   
+            执行一个查询语句，返回一个包含查询结果的DataTable   
+            </summary>   
+            <param name="sql">要执行的查询语句</param>   
+            <param name="parameters">执行SQL查询语句所需要的参数</param>
+            <param name="commandType">执行的SQL语句的类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.DbUtility.ExecuteScalar(System.String,System.Collections.Generic.IList{System.Data.Common.DbParameter})">
+            <summary>   
+            执行一个查询语句，返回查询结果的第一行第一列   
+            </summary>   
+            <param name="sql">要执行的查询语句</param>   
+            <param name="parameters">执行SQL查询语句所需要的参数</param>   
+            <returns></returns>   
+        </member>
+        <member name="M:SunGolden.DBUtils.DbUtility.ExecuteScalar(System.String,System.Collections.Generic.IList{System.Data.Common.DbParameter},System.Data.CommandType)">
+            <summary>   
+            执行一个查询语句，返回查询结果的第一行第一列   
+            </summary>   
+            <param name="sql">要执行的查询语句</param>   
+            <param name="parameters">执行SQL查询语句所需要的参数</param>   
+            <param name="commandType">执行的SQL语句的类型</param>
+            <returns></returns>   
+        </member>
+        <member name="M:SunGolden.DBUtils.DbUtility.QueryForList``1(System.String,System.Collections.Generic.IList{System.Data.Common.DbParameter})">
+            <summary>
+            查询多个实体集合
+            </summary>
+            <typeparam name="T">返回的实体集合类型</typeparam>
+            <param name="sql">要执行的查询语句</param>   
+            <param name="parameters">执行SQL查询语句所需要的参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.DbUtility.QueryForList``1(System.String,System.Collections.Generic.IList{System.Data.Common.DbParameter},System.Data.CommandType)">
+            <summary>
+             查询多个实体集合
+            </summary>
+            <typeparam name="T">返回的实体集合类型</typeparam>
+            <param name="sql">要执行的查询语句</param>   
+            <param name="parameters">执行SQL查询语句所需要的参数</param>   
+            <param name="commandType">执行的SQL语句的类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.DbUtility.QueryForObject``1(System.String,System.Collections.Generic.IList{System.Data.Common.DbParameter})">
+            <summary>
+            查询单个实体
+            </summary>
+            <typeparam name="T">返回的实体集合类型</typeparam>
+            <param name="sql">要执行的查询语句</param>   
+            <param name="parameters">执行SQL查询语句所需要的参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.DbUtility.QueryForObject``1(System.String,System.Collections.Generic.IList{System.Data.Common.DbParameter},System.Data.CommandType)">
+            <summary>
+            查询单个实体
+            </summary>
+            <typeparam name="T">返回的实体集合类型</typeparam>
+            <param name="sql">要执行的查询语句</param>   
+            <param name="parameters">执行SQL查询语句所需要的参数</param>   
+            <param name="commandType">执行的SQL语句的类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.DbUtility.CreateDbCommand(System.String,System.Collections.Generic.IList{System.Data.Common.DbParameter},System.Data.CommandType)">
+            <summary>
+            创建一个DbCommand对象
+            </summary>
+            <param name="sql">要执行的查询语句</param>   
+            <param name="parameters">执行SQL查询语句所需要的参数</param>
+            <param name="commandType">执行的SQL语句的类型</param>
+            <returns></returns>
+        </member>
+        <member name="T:SunGolden.DBUtils.EntityReader">
+            <summary>
+            实体阅读器类，从DataTable中或者DbDataReader的实例中将数据转换成对应的实例对象
+            </summary>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GetEntities``1(System.Data.DataTable)">
+            <summary>
+            将DataTable中的所有数据转换成List&gt;T&lt;集合
+            </summary>
+            <typeparam name="T">DataTable中每条数据可以转换的数据类型</typeparam>
+            <param name="dataTable">包含有可以转换成数据类型T的数据集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GetEntities``1(System.Data.Common.DbDataReader)">
+            <summary>
+            将DbDataReader中的所有数据转换成List&gt;T&lt;集合
+            </summary>
+            <typeparam name="T">DbDataReader中每条数据可以转换的数据类型</typeparam>
+            <param name="dataTable">包含有可以转换成数据类型T的DbDataReader实例</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GetSimpleEntities``1(System.Data.DataTable)">
+            <summary>
+            从DataTable中将每一行的第一列转换成T类型的数据
+            </summary>
+            <typeparam name="T">要转换的目标数据类型</typeparam>
+            <param name="dataTable">包含有可以转换成数据类型T的数据集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GetValueFromObject(System.Object,System.Type)">
+            <summary>
+            将指定的 Object 的值转换为指定类型的值。
+            </summary>
+            <param name="value">实现 IConvertible 接口的 Object，或者为 null</param>
+            <param name="targetType">要转换的目标数据类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GetComplexEntities``1(System.Data.DataTable)">
+            <summary>
+            从DataTable中读取复杂数据类型集合
+            </summary>
+            <typeparam name="T">要转换的目标数据类型</typeparam>
+            <param name="dataTable">包含有可以转换成数据类型T的数据集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GetComplexEntities``1(System.Data.Common.DbDataReader)">
+            <summary>
+            从DbDataReader的实例中读取复杂的数据类型
+            </summary>
+            <typeparam name="T">要转换的目标类</typeparam>
+            <param name="reader">DbDataReader的实例</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GetSimpleEntities``1(System.Data.Common.DbDataReader)">
+            <summary>
+            从DbDataReader的实例中读取简单数据类型（String,ValueType)
+            </summary>
+            <typeparam name="T">目标数据类型</typeparam>
+            <param name="reader">DbDataReader的实例</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GetString(System.Object)">
+            <summary>
+            将Object转换成字符串类型
+            </summary>
+            <param name="value">object类型的实例</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GetEnum(System.Object,System.Type)">
+            <summary>
+            将指定的 Object 的值转换为指定枚举类型的值。
+            </summary>
+            <param name="value">实现 IConvertible 接口的 Object，或者为 null</param>
+            <param name="targetType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GetBoolean(System.Object)">
+            <summary>
+            将指定的 Object 的值转换为指定枚举类型的值。
+            </summary>
+            <param name="value">实现 IConvertible 接口的 Object，或者为 null</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GetByte(System.Object)">
+            <summary>
+            将指定的 Object 的值转换为指定枚举类型的值。
+            </summary>
+            <param name="value">实现 IConvertible 接口的 Object，或者为 null</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GetSByte(System.Object)">
+            <summary>
+            将指定的 Object 的值转换为指定枚举类型的值。
+            </summary>
+            <param name="value">实现 IConvertible 接口的 Object，或者为 null</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GetChar(System.Object)">
+            <summary>
+            将指定的 Object 的值转换为指定枚举类型的值。
+            </summary>
+            <param name="value">实现 IConvertible 接口的 Object，或者为 null</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GetGuid(System.Object)">
+            <summary>
+            将指定的 Object 的值转换为指定枚举类型的值。
+            </summary>
+            <param name="value">实现 IConvertible 接口的 Object，或者为 null</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GetInt16(System.Object)">
+            <summary>
+            将指定的 Object 的值转换为指定枚举类型的值。
+            </summary>
+            <param name="value">实现 IConvertible 接口的 Object，或者为 null</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GetUInt16(System.Object)">
+            <summary>
+            将指定的 Object 的值转换为指定枚举类型的值。
+            </summary>
+            <param name="value">实现 IConvertible 接口的 Object，或者为 null</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GetInt32(System.Object)">
+            <summary>
+            将指定的 Object 的值转换为指定枚举类型的值。
+            </summary>
+            <param name="value">实现 IConvertible 接口的 Object，或者为 null</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GetUInt32(System.Object)">
+            <summary>
+            将指定的 Object 的值转换为指定枚举类型的值。
+            </summary>
+            <param name="value">实现 IConvertible 接口的 Object，或者为 null</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GetInt64(System.Object)">
+            <summary>
+            将指定的 Object 的值转换为指定枚举类型的值。
+            </summary>
+            <param name="value">实现 IConvertible 接口的 Object，或者为 null</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GetUInt64(System.Object)">
+            <summary>
+            将指定的 Object 的值转换为指定枚举类型的值。
+            </summary>
+            <param name="value">实现 IConvertible 接口的 Object，或者为 null</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GetSingle(System.Object)">
+            <summary>
+            将指定的 Object 的值转换为指定枚举类型的值。
+            </summary>
+            <param name="value">实现 IConvertible 接口的 Object，或者为 null</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GetDouble(System.Object)">
+            <summary>
+            将指定的 Object 的值转换为指定枚举类型的值。
+            </summary>
+            <param name="value">实现 IConvertible 接口的 Object，或者为 null</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GetDecimal(System.Object)">
+            <summary>
+            将指定的 Object 的值转换为指定枚举类型的值。
+            </summary>
+            <param name="value">实现 IConvertible 接口的 Object，或者为 null</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GetDateTime(System.Object)">
+            <summary>
+            将指定的 Object 的值转换为指定枚举类型的值。
+            </summary>
+            <param name="value">实现 IConvertible 接口的 Object，或者为 null</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GetTimeSpan(System.Object)">
+            <summary>
+            将指定的 Object 的值转换为指定枚举类型的值。
+            </summary>
+            <param name="value">实现 IConvertible 接口的 Object，或者为 null</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GetBinary(System.Object)">
+            <summary>
+            将指定的 Object 的值转换为指定枚举类型的值。
+            </summary>
+            <param name="value">实现 IConvertible 接口的 Object，或者为 null</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GetGenericValueFromObject(System.Object,System.Type)">
+            <summary>
+            将Object类型数据转换成对应的可空数值类型表示
+            </summary>
+            <param name="value">实现 IConvertible 接口的 Object，或者为 null</param>
+            <param name="targetType">可空数值类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GetNonGenericValueFromObject(System.Object,System.Type)">
+            <summary>
+            将指定的 Object 的值转换为指定类型的值。
+            </summary>
+            <param name="value">实现 IConvertible 接口的 Object，或者为 null</param>
+            <param name="targetType">目标对象的类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.EntityReader.GenerateTypePropertyMapping(System.Type)">
+            <summary>
+            获取该类型中属性与数据库字段的对应关系映射
+            </summary>
+            <param name="type"></param>
+        </member>
+        <member name="T:SunGolden.DBUtils.ColumnNameAttribute">
+            <summary>
+            自定义属性，用于指示如何从DataTable或者DbDataReader中读取类的属性值
+            </summary>
+        </member>
+        <member name="P:SunGolden.DBUtils.ColumnNameAttribute.ColumnName">
+            <summary>
+            类属性对应的列名
+            </summary>
+        </member>
+        <member name="M:SunGolden.DBUtils.ColumnNameAttribute.#ctor(System.String)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="columnName">类属性对应的列名</param>
+        </member>
+        <member name="M:SunGolden.DBUtils.PostgreSQL.CheckDatabase">
+            <summary>
+            检查数据库连接
+            </summary>
+            <exception cref="T:System.Exception">Database system is not yet initialized</exception>
+        </member>
+        <member name="M:SunGolden.DBUtils.PostgreSQL.OpenCon">
+            <summary>
+            打开数据库连接
+            </summary>
+        </member>
+        <member name="M:SunGolden.DBUtils.PostgreSQL.CloseCon">
+            <summary>
+            关闭数据库连接
+            </summary>
+        </member>
+        <member name="M:SunGolden.DBUtils.PostgreSQL.BeginTransaction">
+            <summary>
+            开始事务
+            </summary>
+            <returns>NpgsqlTransaction.</returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.PostgreSQL.CreateSavePoint(System.String,Npgsql.NpgsqlTransaction)">
+            <summary>
+            创建事务还原点
+            </summary>
+            <param name="savespoint">The savespoint.</param>
+            <param name="transation">The transation.</param>
+        </member>
+        <member name="M:SunGolden.DBUtils.PostgreSQL.RollbackToSavePoint(System.String,Npgsql.NpgsqlTransaction)">
+            <summary>
+            回滚到指定还原点
+            </summary>
+            <param name="savespoint">The savespoint.</param>
+            <param name="transation">The transation.</param>
+        </member>
+        <member name="M:SunGolden.DBUtils.PostgreSQL.ReleaseSavePoint(System.String,Npgsql.NpgsqlTransaction)">
+            <summary>
+            释放还原点.
+            </summary>
+            <param name="savespoint">The savespoint.</param>
+            <param name="transation">The transation.</param>
+        </member>
+        <member name="M:SunGolden.DBUtils.PostgreSQL.RollbackTransaction(Npgsql.NpgsqlTransaction)">
+            <summary>
+            回滚事务
+            </summary>
+            <param name="transaction">事务对象</param>
+        </member>
+        <member name="M:SunGolden.DBUtils.PostgreSQL.CommitTransaction(Npgsql.NpgsqlTransaction)">
+            <summary>
+            提交事务
+            </summary>
+            <param name="transaction">The transaction.</param>
+        </member>
+        <member name="M:SunGolden.DBUtils.PostgreSQL.ExecuteNoneQuery(System.String,Npgsql.NpgsqlTransaction,System.Data.Common.DbParameter[])">
+            <summary>
+            执行查询返回受影响的行数,适用于INSERT INTO、UPDATE、DELETE等
+            </summary>
+            <param name="sqlStatement">SQL查询语句.</param>
+            <param name="transaction">事务对象，默认值为null.</param>
+            <param name="parameters">参数列表.</param>
+        </member>
+        <member name="M:SunGolden.DBUtils.PostgreSQL.ExecuteReaderQuery(System.String,Npgsql.NpgsqlTransaction,System.Data.Common.DbParameter[])">
+            <summary>
+            执行一个查询语句，返回一个关联的DataReader实例   
+            </summary>
+            <param name="sqlStatement">The SQL statement.</param>
+            <param name="transaction">The transaction.</param>
+            <param name="parameters">The parameters.</param>
+            <returns>DbDataReader.</returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.PostgreSQL.ExecuteDataSetQuery(System.String,Npgsql.NpgsqlTransaction,System.Data.Common.DbParameter[])">
+            <summary>
+            执行查询返回DataSet集合
+            </summary>
+            <param name="sqlStatement">SQL查询语句.</param>
+            <param name="transaction">事务对象，默认值为null.</param>
+            <param name="parameters">SQL参数列表.</param>
+            <returns>DataSet.</returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.PostgreSQL.ExecuteTableQuery(System.String,Npgsql.NpgsqlTransaction,System.Data.Common.DbParameter[])">
+            <summary>
+            执行查询返回DataTable集合
+            </summary>
+            <param name="sqlStatement">SQL查询语句.</param>
+            <param name="transaction">事务对象，默认值为null.</param>
+            <param name="parameters">SQL参数列表.</param>
+            <returns>DataSet.</returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.PostgreSQL.ExecuteObjectQuery(System.String,System.Type,Npgsql.NpgsqlTransaction,System.Data.Common.DbParameter[])">
+            <summary>
+            执行查询返回指定model类型实例
+            </summary>
+            <param name="sqlStatement">SQL查询语句.</param>
+            <param name="modelType">指定的model类型.</param>
+            <param name="transaction">事务对象，默认值为null.</param>
+            <param name="parameters">SQL参数列表.</param>
+            <returns>List&lt;T&gt;.</returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.PostgreSQL.ExecuteObjectListQuery(System.String,System.Type,Npgsql.NpgsqlTransaction,System.Data.Common.DbParameter[])">
+            <summary>
+            执行查询返回指定model类型集合
+            </summary>
+            <param name="sqlStatement">SQL查询语句.</param>
+            <param name="modelType">指定的model类型.</param>
+            <param name="transaction">事务对象，默认值为null.</param>
+            <param name="parameters">SQL参数列表.</param>
+            <returns>List&lt;T&gt;.</returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.PostgreSQL.ExecuteTQuery``1(System.String,System.Type,Npgsql.NpgsqlTransaction,System.Data.Common.DbParameter[])">
+            <summary>
+            执行一个查询语句，返回一个指定类型的实例
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="sqlStatement">The SQL statement.</param>
+            <param name="modelType">Type of the model.</param>
+            <param name="transaction">The transaction.</param>
+            <param name="parameters">The parameters.</param>
+            <returns>T.</returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.PostgreSQL.ExecuteTListQuery``1(System.String,System.Type,Npgsql.NpgsqlTransaction,System.Data.Common.DbParameter[])">
+            <summary>
+            执行一个查询语句，返回指定类型的实例列表
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="sqlStatement">The SQL statement.</param>
+            <param name="modelType">Type of the model.</param>
+            <param name="transaction">The transaction.</param>
+            <param name="parameters">The parameters.</param>
+            <returns>List&lt;T&gt;.</returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.PostgreSQL.ExecuteScalarQuery``1(System.String,Npgsql.NpgsqlTransaction,System.Data.Common.DbParameter[])">
+            <summary>
+            执行查询返回第一行第一列数据，多用于获取记录条数
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="sqlStatement">SQL查询语句.</param>
+            <param name="transaction">事务对象，默认值为null.</param>
+            <param name="parameters">参数列表.</param>
+            <returns>T.</returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.PostgreSQL.ExecuteScalarQuery(System.String,Npgsql.NpgsqlTransaction,System.Data.Common.DbParameter[])">
+            <summary>
+            执行查询返回第一行第一列数据
+            </summary>
+            <param name="sqlStatement">SQL查询语句.</param>
+            <param name="transaction">事务对象，默认值为null.</param>
+            <param name="parameters">参数列表.</param>
+            <returns>System.Object.</returns>
+        </member>
+        <member name="T:SunGolden.DBUtils.ProviderFactory">
+            <summary>
+            DbProviderFactory工厂类
+            </summary>
+        </member>
+        <member name="M:SunGolden.DBUtils.ProviderFactory.GetProviderInvariantName(SunGolden.DBUtils.DbProviderType)">
+            <summary>
+            获取指定数据库类型对应的程序集名称
+            </summary>
+            <param name="providerType">数据库类型枚举</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.ProviderFactory.GetDbProviderFactory(SunGolden.DBUtils.DbProviderType)">
+            <summary>
+            获取指定类型的数据库对应的DbProviderFactory
+            </summary>
+            <param name="providerType">数据库类型枚举</param>
+            <returns></returns>
+        </member>
+        <member name="M:SunGolden.DBUtils.ProviderFactory.ImportDbProviderFactory(SunGolden.DBUtils.DbProviderType)">
+            <summary>
+            加载指定数据库类型的DbProviderFactory
+            </summary>
+            <param name="providerType">数据库类型枚举</param>
+            <returns></returns>
+        </member>
+        <member name="T:SunGolden.DBUtils.DbProviderType">
+            <summary>
+            数据库类型枚举
+            </summary>
+        </member>
+        <member name="T:SunGolden.DBUtils.PubConstant">
+            <summary>
+            Class PubConstant.
+            </summary>
+        </member>
+        <member name="P:SunGolden.DBUtils.PubConstant.ConnectionString">
+            <summary>
+            获取连接字符串
+            </summary>
+            <value>The connection string.</value>
+        </member>
+        <member name="M:SunGolden.DBUtils.PubConstant.GetConnectionString(System.String)">
+            <summary>
+            得到web.config里配置项的数据库连接字符串。
+            </summary>
+            <param name="configName">Name of the configuration.</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="P:SunGolden.DBUtils.PubConstant.SQLServerConnectionString">
+            <summary>
+            获取SQLServer连接字符串
+            </summary>
+            <value>The SQL server connection string.</value>
+        </member>
+    </members>
+</doc>
