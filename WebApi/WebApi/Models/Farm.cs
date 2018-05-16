@@ -7,20 +7,21 @@ namespace WebApi.Models
 {
     public class Farm
     {
+        public int id { get; set; }
         public string name { get; set; }
         public string address { get; set; }
-        public string thumb { get; set; }
+        //public string thumb { get; set; }
     }
     public class Farmwork
     {
         public int field { get; set; }
         public int type { get; set; }
-        public int creator { get; set; }
-        public int operater { get; set; }
+        public int creator { get; set; } 
+        public int operater { get; set; } 
         public string material { get; set; }
         public int labor_num { get; set; }
         public float labor_cost { get; set; }
-        public int machine { get; set; }
+        public int machine { get; set; } 
         public DateTime createdate { get; set; }
         public DateTime  plandate { get; set; }
         public DateTime  actualdate { get; set; }
@@ -59,16 +60,16 @@ namespace WebApi.Models
         public int id { get; set; }
         public int farm { get; set; }
         public int field { get; set; }
-        public int type { get; set; }
+        public int type { get; set; } 
         public DateTime date { get; set; }
-        public int grade { get; set; }
+        public int grade { get; set; } 
         public float value { get; set; }
     }
     public class Field_live
     {
         public int id { get; set; }
         public int field { get; set; }
-        public int growth { get; set; }
+        public int growth { get; set; } 
         public int moisture { get; set; }
         public string disease { get; set; }
         public string pest { get; set; }

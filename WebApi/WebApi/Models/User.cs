@@ -19,9 +19,10 @@ namespace WebApi.Models
         //public DateTime tokendate { get; set; }
 
     }
-   
-    public class UserResponse<T>
+
+    public class ResultMsg<T>
     {
+        public bool status { get; set; }
         public string msg { get; set; }
         public T data { get; set; }
     }
@@ -30,9 +31,23 @@ namespace WebApi.Models
         public string userid { get; set; }
         public string password { get; set; }
         public string nick { get; set; }
-        public string mobile { get; set;}
+        public string mobile { get; set; }
         public string email { get; set; }
         public string icon_url { get; set; }
-        
+
     }
+    public class UserTask
+    {
+        public int creator { get; set; }
+        public int farm { get; set; }
+        public int examiner { get; set; }
+        public int type { get; set; }
+        public string  description { get; set; }
+        public int state { get; set; }
+        public bool agree { get; set; }
+    }
+    //public class UTask
+    //{
+    //    public bool agree { get; set; }
+    //}
 }
