@@ -17,26 +17,28 @@ namespace WebApi.Controllers
         //获取地块列表
         [HttpGet]
         [AuthFilterOutside]
-        public object GetFields(int farm)
+        public object GetFields(Field field)
         { 
             //获取请求
             var request = HttpContext.Current.Request;
-            ////查询数据库
-            string str ="select * from tb_field where farm = @farm";
+            //声明响应
+            ResultMsg<List<GetFields>> resultmsg = new ResultMsg<List<GetFields>>();
+            HttpResponseMessage response = new HttpResponseMessage();
+            //查询数据库
+            string str = "select name,area,currentcrop,thumb from tb_field where farm = @farm";
             PostgreSQL.OpenCon();
             var para = new DbParameter[1];
-            para[0] = PostgreSQL.NewParameter("@farm", farm);
-            //var qField1 = PostgreSQL.ExecuteTQuery<Field>(str, null, para);
-            var qField = PostgreSQL.ExecuteTListQuery<Field>(str, null, para);
+            para[0] = PostgreSQL.NewParameter("@farm", field.farm);
+           
+            var qField = PostgreSQL.ExecuteTListQuery<GetFields>(str, null, para);
             PostgreSQL.CloseCon();
-            //响应
-            UserResponse<List<Field>> respons = new UserResponse< List < Field >> ();
-            HttpResponseMessage response = new HttpResponseMessage();
-            respons.msg = "0";
-            respons.data = qField;
+           //响应
+            resultmsg.status = true;
+            resultmsg.msg = "成功获取地块列表";
+            resultmsg.data = qField;
             string token = request.Headers["Token"];
             //添加响应内容
-            var resultObj = JsonConvert.SerializeObject(respons, Formatting.Indented);
+            var resultObj = JsonConvert.SerializeObject(resultmsg, Formatting.Indented);
             response.Headers.Add("Token",token );
             response.Content = new StringContent(resultObj);
             return response;
@@ -51,30 +53,31 @@ namespace WebApi.Controllers
             //获取请求
             var request = HttpContext.Current.Request;
             //声明响应
-            UserResponse<Field> respons = new UserResponse<Field>();
+            ResultMsg<Field> resultmsg = new ResultMsg<Field>();
             HttpResponseMessage response = new HttpResponseMessage();
             //查询数据库
             PostgreSQL.OpenCon();
-            string str_select = "select * from tb_field where \"name\" = @name;";
-            var para1 = new DbParameter[1];
-            para1[0] = PostgreSQL.NewParameter("@name", field.name );   
+            string str_select = "select * from tb_field where \"name\" = @name and farm=@farm";
+            var para1 = new DbParameter[2];
+            para1[0] = PostgreSQL.NewParameter("@name", field.name );
+            para1[1] = PostgreSQL.NewParameter("@farm", field.farm);
             var qField = PostgreSQL.ExecuteTQuery<Field>(str_select, null, para1);
-            PostgreSQL.CloseCon();
+        
             //判断地块名是否存在
             if (qField != null)
             {
-                respons.msg = "1";
-                respons.data = qField;
+                resultmsg.status = false;
+                resultmsg.msg = "地块名已经存在，请重新命名!";
+                resultmsg.data = null;
                 token = request.Headers["Token"];
             }
-            else
+            else  
             {
-                PostgreSQL.OpenCon();
-                string str_insert = "insert into tb_field(farm,\"name\",geom,area,createdate,currentcrop,sowdate,phenophase) values(@farm,@name,@geom,@area,@createdate,@currentcrop,@sowdate,@phenophase);";
+                string str_insert = "insert into tb_field(farm,\"name\",geom,area,createdate,currentcrop,sowdate,phenophase,thumb) values(@farm,@name,@geom,@area,@createdate,@currentcrop,@sowdate,@phenophase,@thumb);";
                 var trans = PostgreSQL.BeginTransaction();
-                try
+                try  
                 {
-                    var para = new DbParameter[8];
+                    var para = new DbParameter[9];
                     para[0] = PostgreSQL.NewParameter("@farm", field.farm);
                     para[1] = PostgreSQL.NewParameter("@name", field.name);
                     para[2] = PostgreSQL.NewParameter("@geom", field.geom);
@@ -83,28 +86,38 @@ namespace WebApi.Controllers
                     para[5] = PostgreSQL.NewParameter("@currentcrop", field.currentcrop);
                     para[6] = PostgreSQL.NewParameter("@sowdate", field.sowdate);
                     para[7] = PostgreSQL.NewParameter("@phenophase", field.phenophase);
+                    para[8] = PostgreSQL.NewParameter("thumb", field.thumb);
                     var num = PostgreSQL.ExecuteNoneQuery(str_insert, trans, para);
                     PostgreSQL.CommitTransaction(trans);
+                    //响应内容
+                    resultmsg.status = true;
+                    resultmsg.msg = "添加地块成功!";
+                    resultmsg.data = null;
+                    token = request.Headers["Token"];
                 }
                 catch (Exception ex)
                 {
                     PostgreSQL.RollbackTransaction(trans);
+                    //响应内容
+                    resultmsg.status = false;
+                    resultmsg.msg = "[ERROR] 数据库操作出现异常：" + ex.Message;
+                    resultmsg.data = null;
+                    token = request.Headers["Token"];
                 }
-                PostgreSQL.CloseCon();
+                finally
+                {
+                    PostgreSQL.CloseCon();
+                }
             }
-            PostgreSQL.CloseCon();
-            //响应内容
-            respons.msg = "0";
-            respons.data = qField;
-            token = request.Headers["Token"];
+           
             //添加响应头
-            var resultObj = JsonConvert.SerializeObject(respons, Formatting.Indented);
+            var resultObj = JsonConvert.SerializeObject(resultmsg, Formatting.Indented);
             response.Headers.Add("Token", token);
             response.Content = new StringContent(resultObj);
 
             return response;
         }
-        //更新地块信息
+        //更新指定地块作物信息
         [HttpPost]
         [AuthFilterOutside]
         public object UpdateField(Field field)
@@ -113,67 +126,153 @@ namespace WebApi.Controllers
             //获取请求
             var request = HttpContext.Current.Request;
             //声明响应
-            UserResponse<Field> respons = new UserResponse<Field>();
+            ResultMsg<Field> resultmsg = new ResultMsg<Field>();
             HttpResponseMessage response = new HttpResponseMessage();
 
             //查询数据库
             PostgreSQL.OpenCon();
-            string str_select = "select * from tb_field where name = @name;";
+            string str_select = "select * from tb_field where id = @id;";//name = @name and farm = @farm;";
             var para = new DbParameter[1];
-            para[0] = PostgreSQL.NewParameter("@name", field.name);
+            para[0] = PostgreSQL.NewParameter("@id", field.id);
+            //para[1] = PostgreSQL.NewParameter("@farm",field.farm);
             var qField = PostgreSQL.ExecuteTQuery<Field>(str_select, null, para);
-            PostgreSQL.CloseCon();
             if (qField == null)
             {
-                respons.msg = "1";
-                respons.data = null;
+                resultmsg.status = false ;
+                resultmsg.msg = "地块不存在!";
+                resultmsg.data = null;
                 token = request.Headers["Token"];
             }
             else
             {
-                PostgreSQL.OpenCon();
-                string str_update = "update tb_field set \"name\" = @name, area= @area,sowdate = @sowdate ,currentcrop = @currentcrop where \"name\" = @name";
+                string str_update = "update tb_field set \"name\" = @name,sowdate = @sowdate ,currentcrop = @currentcrop where id=@id";
                 var trans = PostgreSQL.BeginTransaction();
                 try
                 {
-                    var para1 = new DbParameter[4];
+                    var para1 = new DbParameter[6];
                     para1[0] = PostgreSQL.NewParameter("@name", field.name);
                     para1[1] = PostgreSQL.NewParameter("@area", field.area);
                     para1[2] = PostgreSQL.NewParameter("@sowdate", field.sowdate);
                     para1[3] = PostgreSQL.NewParameter("@currentcrop", field.currentcrop);
+                    para1[4] = PostgreSQL.NewParameter("@thumb", field.thumb);
+                    para1[5] = PostgreSQL.NewParameter("@id", field.id);
                     var num = PostgreSQL.ExecuteNoneQuery(str_update, trans, para1);
                     PostgreSQL.CommitTransaction(trans);
+                    ////查询数据库
+                    //PostgreSQL.OpenCon();
+                    //string str = "select * from tb_field where name = @name;";
+                    //var para2 = new DbParameter[1];
+                    //para2[0] = PostgreSQL.NewParameter("@name", field.name);
+                    //var qField1 = PostgreSQL.ExecuteTQuery<Field>(str, null, para2);
+                    //PostgreSQL.CloseCon();
+                    //响应内容
+                    resultmsg.status = true;
+                    resultmsg.msg = "成功更新地块信息!";
+                    resultmsg.data = null;
+                    token = request.Headers["Token"];
                 }
                 catch (Exception ex)
                 {
                     PostgreSQL.RollbackTransaction(trans);
+                    //响应内容
+                    resultmsg.status = false;
+                    resultmsg.msg = "[ERROR] 数据库操作出现异常：" + ex.Message;
+                    resultmsg.data = null;
+                    token = request.Headers["Token"];
                 }
-                PostgreSQL.CloseCon();
-                //查询数据库
-                PostgreSQL.OpenCon();
-                string str = "select * from tb_field where name = @name;";
-                var para2 = new DbParameter[1];
-                para2[0] = PostgreSQL.NewParameter("@name", field.name);
-                var qField1 = PostgreSQL.ExecuteTQuery<Field>(str, null, para2);
-                PostgreSQL.CloseCon();
-                //响应内容
-                respons.msg = "0";
-                respons.data = qField1;
-                token = request.Headers["Token"];
-               
+                finally
+                {
+                    PostgreSQL.CloseCon();
+                }
                 //添加响应头
-                var resultObj = JsonConvert.SerializeObject(respons, Formatting.Indented);
+                var resultObj = JsonConvert.SerializeObject(resultmsg, Formatting.Indented);
                 response.Headers.Add("Token", token);
                 response.Content = new StringContent(resultObj);
             }
                 return response;
         }
-        //获取地块信息详情
-        //[HttpGet]
-        //public object GetFieldDetail( )
-        //{
+       //批量修改地块作物类型
+        [HttpPost]
+        [AuthFilterOutside]
+        public object BatchField(Field field)//////////
+        {
+            string token = null;
+            //获取请求
+            var request = HttpContext.Current.Request;
+            //声明响应
+            ResultMsg<Field> resultmsg = new ResultMsg<Field>();
+            HttpResponseMessage response = new HttpResponseMessage();
 
-        //}
+            //查询数据库
+            PostgreSQL.OpenCon();
+            string str_update = "update tb_field set sowdate = @sowdate ,currentcrop = @currentcrop where id=@id;";//currentcrop = @currentcrop and farm = @farm";
+            var trans = PostgreSQL.BeginTransaction();
+            try
+            {
+                var para1 = new DbParameter[3];
+                para1[0] = PostgreSQL.NewParameter("@currentcrop", field.currentcrop);
+                para1[1] = PostgreSQL.NewParameter("@id", field.id);
+                para1[2] = PostgreSQL.NewParameter("@sowdate", field.sowdate);
+                //para1[3] = PostgreSQL.NewParameter("@currentcrop", field.currentcrop);
+                var num = PostgreSQL.ExecuteNoneQuery(str_update, trans, para1);
+                PostgreSQL.CommitTransaction(trans);
+                //响应内容
+                resultmsg.status = true;
+                resultmsg.msg = "成功批量修改地块信息!";
+                resultmsg.data = null;
+                token = request.Headers["Token"];
+
+            }
+            catch (Exception ex)
+            {
+                PostgreSQL.RollbackTransaction(trans);
+                //响应内容
+                resultmsg.status = false;
+                resultmsg.msg = "[ERROR] 数据库操作出现异常：" + ex.Message;
+                resultmsg.data = null;
+                token = request.Headers["Token"];
+            }
+            finally
+            {
+                PostgreSQL.CloseCon();
+            }
+            //添加响应头
+            var resultObj = JsonConvert.SerializeObject(resultmsg, Formatting.Indented);
+            response.Headers.Add("Token", token);
+            response.Content = new StringContent(resultObj);
+            return response;
+        }
+        //获取地块物候期
+        [HttpGet]
+        [AuthFilterOutside]
+        public object GetFieldPhenophase(Phenophase phen)
+        {
+            string token = null;
+
+            //获取请求
+            var request = HttpContext.Current.Request;
+            //响应
+            ResultMsg<Phenophase> resultmsg = new ResultMsg<Phenophase>();
+            HttpResponseMessage response = new HttpResponseMessage();
+            //查询数据库 
+            string str = "select * from tb_phenophase  where crop_type = @crop_type";
+            PostgreSQL.OpenCon();
+            var para = new DbParameter[1];
+            para[0] = PostgreSQL.NewParameter("@crop_type", phen.crop_type);
+            var qphen = PostgreSQL.ExecuteTQuery<Phenophase>(str, null, para);
+            PostgreSQL.CloseCon();
+            //响应内容
+            resultmsg.status = true;
+            resultmsg.msg = "成功获取此地块的物候信息!";
+            resultmsg.data = qphen;
+            token = request.Headers["Token"];
+
+            //添加响应头
+            var resultObj = JsonConvert.SerializeObject(resultmsg, Formatting.Indented);
+            response.Headers.Add("Token", token);
+            response.Content = new StringContent(resultObj);
+            return response;
+        }
 
         //获取作物类型
         [HttpGet]
@@ -183,202 +282,27 @@ namespace WebApi.Controllers
             string token = null;
             //获取请求
             var request = HttpContext.Current.Request;
-
+            //声明响应
+            ResultMsg<List<CropTypes>> resultmsg = new ResultMsg<List<CropTypes>>();
+            HttpResponseMessage response = new HttpResponseMessage();
             //查询数据库
             string str_select = "select * from dic_crop_type";
-            PostgreSQL.OpenCon();
-          
-            var para = new DbParameter[0];
+            PostgreSQL.OpenCon();       
+            var para = new DbParameter[0];        
             var qCrop = PostgreSQL.ExecuteTListQuery<CropTypes>(str_select, null, para);
             PostgreSQL.CloseCon();
-            //响应
-            UserResponse<List<CropTypes>> respons = new UserResponse<List<CropTypes>>();
-            HttpResponseMessage response = new HttpResponseMessage();
-            respons.msg = "0";
-            respons.data = qCrop;
-            token = request.Headers["Token"];
-            //添加响应头
-            var resultObj = JsonConvert.SerializeObject(respons, Formatting.Indented);
-            response.Headers.Add("Token", token);
-            response.Content = new StringContent(resultObj);
-            return response;
-        } 
-       //创建农场
-        [HttpPost]
-        [AuthFilterOutside]
-        public object CreatFarm(Farm farm)
-        {
-            string token =null;
-            //获取请求
-            var request = HttpContext.Current.Request;
-            token= request.Headers["Token"];
-            var role =RoleType(token);
-
-            //响应
-            UserResponse<Farm> respons = new UserResponse<Farm>();
-            HttpResponseMessage response = new HttpResponseMessage();
-           
-            //如果用户是农场主，则创建农场
-            if (role== "1")//"农场主")
-            {
-                PostgreSQL.OpenCon();
-                var para = new DbParameter[1];
-                string str_select = "select * from tb_farm where name=@name";
-                para[0] = PostgreSQL.NewParameter("@name", farm.name);
-                var qfarm = PostgreSQL.ExecuteTQuery<Farm>(str_select, null, para);
-                PostgreSQL.CloseCon();
-                if(qfarm !=null)
-                {
-                    respons.msg = "1";
-                    respons.data = qfarm;
-                    token = request.Headers["Token"];
-                }
-                else
-                {
-                    PostgreSQL.OpenCon(); 
-                    var trans = PostgreSQL.BeginTransaction();
-                    try
-                    {
-                        string str_insert = "insert into tb_farm(\"name\",address,thumb) values(@name,@address,@thumb);";
-                        var para1 = new DbParameter[3];
-                        para1[0] = PostgreSQL.NewParameter("@name", farm.name);
-                        para1[1] = PostgreSQL.NewParameter("@address", farm.address);
-                        para1[2] = PostgreSQL.NewParameter("@thumb", farm.thumb);
-                        var num = PostgreSQL.ExecuteNoneQuery(str_insert, trans, para1);
-                        PostgreSQL.CommitTransaction(trans);
-                    }
-                    catch (Exception ex)
-                    {
-                        PostgreSQL.RollbackTransaction(trans);
-                    }
-                   
-                    var para2 = new DbParameter[1];
-                    para2[0] = PostgreSQL.NewParameter("@name", farm.name);
-                    var qfarm1 = PostgreSQL.ExecuteTQuery<Farm>(str_select, null, para2);
-                    PostgreSQL.CloseCon();
-                    //响应内容
-                    respons.msg = "0";
-                    respons.data = qfarm1;
-                    token = request.Headers["Token"];
-                   
-                }
-               
-            }
-            else
-            {
-                respons.msg = "1";
-                respons.data = null;
-                token = request.Headers["Token"];
-            }
-            //添加响应头
-            var resultObj = JsonConvert.SerializeObject(respons, Formatting.Indented);
-            response.Headers.Add("Token", token);
-            response.Content = new StringContent(resultObj);
-            return response;    
-            
-        }
-       //加入农场
-        [HttpPost]
-        [AuthFilterOutside]
-        public object JoinFarm(User user)
-        {
-            string token = null;
-            //获取请求
-            var request = HttpContext.Current.Request;
-            token = request.Headers["Token"];
-            var role = RoleType(token);
-
-            //响应
-            UserResponse<User> respons = new UserResponse<User>();
-            HttpResponseMessage response = new HttpResponseMessage();
-
-            if (role == "1")// "管理员")
-            {
-                //查询数据库，获取用户农场字段是否为空。
-                PostgreSQL.OpenCon();
-                string str = "select * from  tb_user where mobile=@mobile;";  //SQL查询语句       
-                                                                                 //var trans = PostgreSQL.BeginTransaction();
-                var para = new DbParameter[1];
-                para[0] = PostgreSQL.NewParameter("@mobile", user.mobile);
-                var qfarm = PostgreSQL.ExecuteTableQuery(str, null, para);
-                //PostgreSQL.CloseCon();
-                var de = qfarm.Rows[0]["farm"].ToString ();
-                if (qfarm !=null && de != "")
-                {
-                    respons.msg = "1";
-                    respons.data= PostgreSQL.ExecuteTQuery<User>(str, null, para); 
-                    token = request.Headers["Token"];
-                    PostgreSQL.CloseCon();
-                }
-                else
-                {
-                    PostgreSQL.OpenCon();
-                    var trans = PostgreSQL.BeginTransaction();
-                    try
-                    {
-                        string str_update = "update tb_user set farm= @farm where mobile= @mobile;";
-                        var para1 = new DbParameter[2];
-                        para1[0] = PostgreSQL.NewParameter("@farm", user.farm);
-                        para1[1] = PostgreSQL.NewParameter("@mobile", user.mobile);
-                        var num = PostgreSQL.ExecuteNoneQuery(str_update, trans, para1);
-                        PostgreSQL.CommitTransaction(trans);
-                    }
-                    catch (Exception ex)
-                    {
-                        PostgreSQL.RollbackTransaction(trans);
-                    }
-                    var para2 = new DbParameter[1];
-                    para2[0] = PostgreSQL.NewParameter("@mobile", user.mobile);
-                    var qfarm1 = PostgreSQL.ExecuteTQuery<User>(str, null, para2);
-                    respons.msg = "0";
-                    respons.data = qfarm1;
-                    token = request.Headers["Token"]; 
-                    PostgreSQL.CloseCon();
-                }
-            }
-            else
-            {
-                respons.msg = "1";
-                respons.data = null;
-                token = request.Headers["Token"];
-            }
-            //添加响应头信息
-            var resultObj = JsonConvert.SerializeObject(respons, Formatting.Indented);
-            response.Headers.Add("Token", token);
-            response.Content = new StringContent(resultObj);
-            return response;
-
-        }
-        //获取农场简报
-        [HttpGet]
-        [AuthFilterOutside]
-        public object GetFarmbrief(string name)
-        {
-            string token =null;
-
-            //获取请求
-            var request = HttpContext.Current.Request;
-            //响应
-            UserResponse<Farm> respons = new UserResponse<Farm>();
-            HttpResponseMessage response = new HttpResponseMessage();
-            //查询数据库
-            string str ="select thumb from tb_farm where \"name\"= @name";
-            PostgreSQL.OpenCon();
-            var para = new DbParameter[0];
-            para[0]= PostgreSQL.NewParameter("@name", name);
-            var qfarm = PostgreSQL.ExecuteTQuery<Farm>(str, null, para);
-            PostgreSQL.CloseCon();
             //响应内容
-            respons.msg = "0";
-            respons.data = qfarm;
+            resultmsg.status = true;
+            resultmsg.msg = "成功获取作物列表!";
+            resultmsg.data = qCrop;
             token = request.Headers["Token"];
-
             //添加响应头
-            var resultObj = JsonConvert.SerializeObject(respons, Formatting.Indented);
+            var resultObj = JsonConvert.SerializeObject(resultmsg, Formatting.Indented);
             response.Headers.Add("Token", token);
             response.Content = new StringContent(resultObj);
             return response;
         }
+       
 
         ////获取指定地块农事信息
         //[HttpGet]
@@ -398,28 +322,18 @@ namespace WebApi.Controllers
         //    PostgreSQL.CloseCon();
 
         //    //响应
-        //    UserResponse<Field_plan> respons = new UserResponse<Field_plan>();
+        //    UserResponse<Field_plan> resultmsg = new UserResponse<Field_plan>();
         //    HttpResponseMessage response = new HttpResponseMessage();
-        //    respons.msg = "0";
-        //    respons.data = qFieldplan;
+        //    resultmsg.msg = "0";
+        //    resultmsg.data = qFieldplan;
         //    string token = request.Headers["Token"];
         //    //添加响应内容
-        //    var resultObj = JsonConvert.SerializeObject(respons, Formatting.Indented);
+        //    var resultObj = JsonConvert.SerializeObject(resultmsg, Formatting.Indented);
         //    response.Headers.Add("Token", token);
         //    response.Content = new StringContent(resultObj);
         //    return response;
         //}
         //获取token里用户的角色信息
-        private string RoleType(string token)
-        {
-            //解密Token
-            string strtoken = SunGolden.Encryption.DEncrypt.Decrypt(token);
-            //
-            var index = strtoken.IndexOf(",");
-            string str_mobile = strtoken.Substring(0, index);
-            string str_role = strtoken.Substring(index + 1);
-            return str_role;
-
-        }
+       
     }
 }
