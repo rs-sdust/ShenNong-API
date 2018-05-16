@@ -300,7 +300,7 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 				if ( req.readyState != 4 || req.status != 200 && req.status != 304 ){
 					return;
 				}
-				callback( req.responseText );
+				callback( req.resultmsgeText );
 			}
 			if ( req.readyState == 4 ){
 				return;

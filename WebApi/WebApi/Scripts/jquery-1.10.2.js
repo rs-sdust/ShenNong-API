@@ -7733,7 +7733,7 @@ jQuery.fn.load = function( url, params, callback ) {
 		return _load.apply( this, arguments );
 	}
 
-	var selector, response, type,
+	var selector, resultmsge, type,
 		self = this,
 		off = url.indexOf(" ");
 
@@ -7763,22 +7763,22 @@ jQuery.fn.load = function( url, params, callback ) {
 			type: type,
 			dataType: "html",
 			data: params
-		}).done(function( responseText ) {
+		}).done(function( resultmsgeText ) {
 
-			// Save response for use in complete callback
-			response = arguments;
+			// Save resultmsge for use in complete callback
+			resultmsge = arguments;
 
 			self.html( selector ?
 
 				// If a selector was specified, locate the right elements in a dummy div
 				// Exclude scripts to avoid IE 'Permission Denied' errors
-				jQuery("<div>").append( jQuery.parseHTML( responseText ) ).find( selector ) :
+				jQuery("<div>").append( jQuery.parseHTML( resultmsgeText ) ).find( selector ) :
 
 				// Otherwise use the full result
-				responseText );
+				resultmsgeText );
 
 		}).complete( callback && function( jqXHR, status ) {
-			self.each( callback, response || [ jqXHR.responseText, status, jqXHR ] );
+			self.each( callback, resultmsge || [ jqXHR.resultmsgeText, status, jqXHR ] );
 		});
 	}
 
@@ -7835,10 +7835,10 @@ jQuery.extend({
 			json: /json/
 		},
 
-		responseFields: {
-			xml: "responseXML",
-			text: "responseText",
-			json: "responseJSON"
+		resultmsgeFields: {
+			xml: "resultmsgeXML",
+			text: "resultmsgeText",
+			json: "resultmsgeJSON"
 		},
 
 		// Data converters
@@ -7902,8 +7902,8 @@ jQuery.extend({
 			i,
 			// URL without anti-cache param
 			cacheURL,
-			// Response headers as string
-			responseHeadersString,
+			// resultmsge headers as string
+			resultmsgeHeadersString,
 			// timeout handle
 			timeoutTimer,
 
@@ -7911,8 +7911,8 @@ jQuery.extend({
 			fireGlobals,
 
 			transport,
-			// Response headers
-			responseHeaders,
+			// resultmsge headers
+			resultmsgeHeaders,
 			// Create the final options object
 			s = jQuery.ajaxSetup( {}, options ),
 			// Callbacks context
@@ -7938,23 +7938,23 @@ jQuery.extend({
 				readyState: 0,
 
 				// Builds headers hashtable if needed
-				getResponseHeader: function( key ) {
+				getresultmsgeHeader: function( key ) {
 					var match;
 					if ( state === 2 ) {
-						if ( !responseHeaders ) {
-							responseHeaders = {};
-							while ( (match = rheaders.exec( responseHeadersString )) ) {
-								responseHeaders[ match[1].toLowerCase() ] = match[ 2 ];
+						if ( !resultmsgeHeaders ) {
+							resultmsgeHeaders = {};
+							while ( (match = rheaders.exec( resultmsgeHeadersString )) ) {
+								resultmsgeHeaders[ match[1].toLowerCase() ] = match[ 2 ];
 							}
 						}
-						match = responseHeaders[ key.toLowerCase() ];
+						match = resultmsgeHeaders[ key.toLowerCase() ];
 					}
 					return match == null ? null : match;
 				},
 
 				// Raw string
-				getAllResponseHeaders: function() {
-					return state === 2 ? responseHeadersString : null;
+				getAllresultmsgeHeaders: function() {
+					return state === 2 ? resultmsgeHeadersString : null;
 				},
 
 				// Caches the header
@@ -7967,7 +7967,7 @@ jQuery.extend({
 					return this;
 				},
 
-				// Overrides response content-type header
+				// Overrides resultmsge content-type header
 				overrideMimeType: function( type ) {
 					if ( !state ) {
 						s.mimeType = type;
@@ -8160,8 +8160,8 @@ jQuery.extend({
 		}
 
 		// Callback for when everything is done
-		function done( status, nativeStatusText, responses, headers ) {
-			var isSuccess, success, error, response, modified,
+		function done( status, nativeStatusText, resultmsges, headers ) {
+			var isSuccess, success, error, resultmsge, modified,
 				statusText = nativeStatusText;
 
 			// Called once
@@ -8181,8 +8181,8 @@ jQuery.extend({
 			// (no matter how long the jqXHR object will be used)
 			transport = undefined;
 
-			// Cache response headers
-			responseHeadersString = headers || "";
+			// Cache resultmsge headers
+			resultmsgeHeadersString = headers || "";
 
 			// Set readyState
 			jqXHR.readyState = status > 0 ? 4 : 0;
@@ -8190,24 +8190,24 @@ jQuery.extend({
 			// Determine if successful
 			isSuccess = status >= 200 && status < 300 || status === 304;
 
-			// Get response data
-			if ( responses ) {
-				response = ajaxHandleResponses( s, jqXHR, responses );
+			// Get resultmsge data
+			if ( resultmsges ) {
+				resultmsge = ajaxHandleresultmsges( s, jqXHR, resultmsges );
 			}
 
-			// Convert no matter what (that way responseXXX fields are always set)
-			response = ajaxConvert( s, response, jqXHR, isSuccess );
+			// Convert no matter what (that way resultmsgeXXX fields are always set)
+			resultmsge = ajaxConvert( s, resultmsge, jqXHR, isSuccess );
 
 			// If successful, handle type chaining
 			if ( isSuccess ) {
 
 				// Set the If-Modified-Since and/or If-None-Match header, if in ifModified mode.
 				if ( s.ifModified ) {
-					modified = jqXHR.getResponseHeader("Last-Modified");
+					modified = jqXHR.getresultmsgeHeader("Last-Modified");
 					if ( modified ) {
 						jQuery.lastModified[ cacheURL ] = modified;
 					}
-					modified = jqXHR.getResponseHeader("etag");
+					modified = jqXHR.getresultmsgeHeader("etag");
 					if ( modified ) {
 						jQuery.etag[ cacheURL ] = modified;
 					}
@@ -8223,9 +8223,9 @@ jQuery.extend({
 
 				// If we have data, let's convert it
 				} else {
-					statusText = response.state;
-					success = response.data;
-					error = response.error;
+					statusText = resultmsge.state;
+					success = resultmsge.data;
+					error = resultmsge.error;
 					isSuccess = !error;
 				}
 			} else {
@@ -8303,11 +8303,11 @@ jQuery.each( [ "get", "post" ], function( i, method ) {
 	};
 });
 
-/* Handles responses to an ajax request:
+/* Handles resultmsges to an ajax request:
  * - finds the right dataType (mediates between content-type and expected dataType)
- * - returns the corresponding response
+ * - returns the corresponding resultmsge
  */
-function ajaxHandleResponses( s, jqXHR, responses ) {
+function ajaxHandleresultmsges( s, jqXHR, resultmsges ) {
 	var firstDataType, ct, finalDataType, type,
 		contents = s.contents,
 		dataTypes = s.dataTypes;
@@ -8316,7 +8316,7 @@ function ajaxHandleResponses( s, jqXHR, responses ) {
 	while( dataTypes[ 0 ] === "*" ) {
 		dataTypes.shift();
 		if ( ct === undefined ) {
-			ct = s.mimeType || jqXHR.getResponseHeader("Content-Type");
+			ct = s.mimeType || jqXHR.getresultmsgeHeader("Content-Type");
 		}
 	}
 
@@ -8330,12 +8330,12 @@ function ajaxHandleResponses( s, jqXHR, responses ) {
 		}
 	}
 
-	// Check to see if we have a response for the expected dataType
-	if ( dataTypes[ 0 ] in responses ) {
+	// Check to see if we have a resultmsge for the expected dataType
+	if ( dataTypes[ 0 ] in resultmsges ) {
 		finalDataType = dataTypes[ 0 ];
 	} else {
 		// Try convertible dataTypes
-		for ( type in responses ) {
+		for ( type in resultmsges ) {
 			if ( !dataTypes[ 0 ] || s.converters[ type + " " + dataTypes[0] ] ) {
 				finalDataType = type;
 				break;
@@ -8350,19 +8350,19 @@ function ajaxHandleResponses( s, jqXHR, responses ) {
 
 	// If we found a dataType
 	// We add the dataType to the list if needed
-	// and return the corresponding response
+	// and return the corresponding resultmsge
 	if ( finalDataType ) {
 		if ( finalDataType !== dataTypes[ 0 ] ) {
 			dataTypes.unshift( finalDataType );
 		}
-		return responses[ finalDataType ];
+		return resultmsges[ finalDataType ];
 	}
 }
 
-/* Chain conversions given the request and the original response
- * Also sets the responseXXX fields on the jqXHR instance
+/* Chain conversions given the request and the original resultmsge
+ * Also sets the resultmsgeXXX fields on the jqXHR instance
  */
-function ajaxConvert( s, response, jqXHR, isSuccess ) {
+function ajaxConvert( s, resultmsge, jqXHR, isSuccess ) {
 	var conv2, current, conv, tmp, prev,
 		converters = {},
 		// Work with a copy of dataTypes in case we need to modify it for conversion
@@ -8380,13 +8380,13 @@ function ajaxConvert( s, response, jqXHR, isSuccess ) {
 	// Convert to each sequential dataType
 	while ( current ) {
 
-		if ( s.responseFields[ current ] ) {
-			jqXHR[ s.responseFields[ current ] ] = response;
+		if ( s.resultmsgeFields[ current ] ) {
+			jqXHR[ s.resultmsgeFields[ current ] ] = resultmsge;
 		}
 
 		// Apply the dataFilter if provided
 		if ( !prev && isSuccess && s.dataFilter ) {
-			response = s.dataFilter( response, s.dataType );
+			resultmsge = s.dataFilter( resultmsge, s.dataType );
 		}
 
 		prev = current;
@@ -8399,7 +8399,7 @@ function ajaxConvert( s, response, jqXHR, isSuccess ) {
 
 				current = prev;
 
-			// Convert response if prev dataType is non-auto and differs from current
+			// Convert resultmsge if prev dataType is non-auto and differs from current
 			} else if ( prev !== "*" && prev !== current ) {
 
 				// Seek a direct converter
@@ -8437,10 +8437,10 @@ function ajaxConvert( s, response, jqXHR, isSuccess ) {
 
 					// Unless errors are allowed to bubble, catch and return them
 					if ( conv && s[ "throws" ] ) {
-						response = conv( response );
+						resultmsge = conv( resultmsge );
 					} else {
 						try {
-							response = conv( response );
+							resultmsge = conv( resultmsge );
 						} catch ( e ) {
 							return { state: "parsererror", error: conv ? e : "No conversion from " + prev + " to " + current };
 						}
@@ -8450,7 +8450,7 @@ function ajaxConvert( s, response, jqXHR, isSuccess ) {
 		}
 	}
 
-	return { state: "success", data: response };
+	return { state: "success", data: resultmsge };
 }
 // Install script dataType
 jQuery.ajaxSetup({
@@ -8554,7 +8554,7 @@ jQuery.ajaxSetup({
 // Detect, normalize options and install callbacks for jsonp requests
 jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 
-	var callbackName, overwritten, responseContainer,
+	var callbackName, overwritten, resultmsgeContainer,
 		jsonProp = s.jsonp !== false && ( rjsonp.test( s.url ) ?
 			"url" :
 			typeof s.data === "string" && !( s.contentType || "" ).indexOf("application/x-www-form-urlencoded") && rjsonp.test( s.data ) && "data"
@@ -8577,10 +8577,10 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 
 		// Use data converter to retrieve json after script execution
 		s.converters["script json"] = function() {
-			if ( !responseContainer ) {
+			if ( !resultmsgeContainer ) {
 				jQuery.error( callbackName + " was not called" );
 			}
-			return responseContainer[ 0 ];
+			return resultmsgeContainer[ 0 ];
 		};
 
 		// force json dataType
@@ -8589,7 +8589,7 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 		// Install callback
 		overwritten = window[ callbackName ];
 		window[ callbackName ] = function() {
-			responseContainer = arguments;
+			resultmsgeContainer = arguments;
 		};
 
 		// Clean-up function (fires after converters)
@@ -8606,12 +8606,12 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 				oldCallbacks.push( callbackName );
 			}
 
-			// Call if it was a function and we have a response
-			if ( responseContainer && jQuery.isFunction( overwritten ) ) {
-				overwritten( responseContainer[ 0 ] );
+			// Call if it was a function and we have a resultmsge
+			if ( resultmsgeContainer && jQuery.isFunction( overwritten ) ) {
+				overwritten( resultmsgeContainer[ 0 ] );
 			}
 
-			responseContainer = overwritten = undefined;
+			resultmsgeContainer = overwritten = undefined;
 		});
 
 		// Delegate to script
@@ -8721,7 +8721,7 @@ if ( xhrSupported ) {
 
 					// Listener
 					callback = function( _, isAbort ) {
-						var status, responseHeaders, statusText, responses;
+						var status, resultmsgeHeaders, statusText, resultmsges;
 
 						// Firefox throws exceptions when accessing properties
 						// of an xhr when a network error occurred
@@ -8749,14 +8749,14 @@ if ( xhrSupported ) {
 										xhr.abort();
 									}
 								} else {
-									responses = {};
+									resultmsges = {};
 									status = xhr.status;
-									responseHeaders = xhr.getAllResponseHeaders();
+									resultmsgeHeaders = xhr.getAllresultmsgeHeaders();
 
 									// When requesting binary data, IE6-9 will throw an exception
-									// on any attempt to access responseText (#11426)
-									if ( typeof xhr.responseText === "string" ) {
-										responses.text = xhr.responseText;
+									// on any attempt to access resultmsgeText (#11426)
+									if ( typeof xhr.resultmsgeText === "string" ) {
+										resultmsges.text = xhr.resultmsgeText;
 									}
 
 									// Firefox throws an exception when accessing
@@ -8774,7 +8774,7 @@ if ( xhrSupported ) {
 									// (success with no data won't get notified, that's the best we
 									// can do given current implementations)
 									if ( !status && s.isLocal && !s.crossDomain ) {
-										status = responses.text ? 200 : 404;
+										status = resultmsges.text ? 200 : 404;
 									// IE - #1450: sometimes returns 1223 when it should be 204
 									} else if ( status === 1223 ) {
 										status = 204;
@@ -8788,8 +8788,8 @@ if ( xhrSupported ) {
 						}
 
 						// Call complete if needed
-						if ( responses ) {
-							complete( status, statusText, responses, responseHeaders );
+						if ( resultmsges ) {
+							complete( status, statusText, resultmsges, resultmsgeHeaders );
 						}
 					};
 

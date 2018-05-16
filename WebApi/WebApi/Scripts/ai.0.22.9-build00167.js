@@ -610,7 +610,7 @@ var Microsoft;
                 this.completed = false;
                 this.requestHeadersSize = null;
                 this.ttfb = null;
-                this.responseReceivingDuration = null;
+                this.resultmsgeReceivingDuration = null;
                 this.callbackDuration = null;
                 this.ajaxTotalDuration = null;
                 this.aborted = null;
@@ -620,8 +620,8 @@ var Microsoft;
                 this.method = null;
                 this.status = null;
                 this.requestSentTime = null;
-                this.responseStartedTime = null;
-                this.responseFinishedTime = null;
+                this.resultmsgeStartedTime = null;
+                this.resultmsgeFinishedTime = null;
                 this.callbackFinishedTime = null;
                 this.endTime = null;
                 this.originalOnreadystatechage = null;
@@ -629,7 +629,7 @@ var Microsoft;
                 this.clientFailure = 0;
                 this.CalculateMetrics = function () {
                     var self = this;
-                    self.ajaxTotalDuration = ApplicationInsights.dateTime.GetDuration(self.requestSentTime, self.responseFinishedTime);
+                    self.ajaxTotalDuration = ApplicationInsights.dateTime.GetDuration(self.requestSentTime, self.resultmsgeFinishedTime);
                 };
                 this.id = id;
             }
@@ -788,14 +788,14 @@ var Microsoft;
                 });
             };
             AjaxMonitor.prototype.onAjaxComplete = function (xhr) {
-                xhr.ajaxData.responseFinishedTime = ApplicationInsights.dateTime.Now();
+                xhr.ajaxData.resultmsgeFinishedTime = ApplicationInsights.dateTime.Now();
                 xhr.ajaxData.status = xhr.status;
                 xhr.ajaxData.CalculateMetrics();
                 if (xhr.ajaxData.ajaxTotalDuration < 0) {
                     ApplicationInsights._InternalLogging.throwInternalNonUserActionable(ApplicationInsights.LoggingSeverity.WARNING, new ApplicationInsights._InternalLogMessage(ApplicationInsights._InternalMessageId.NONUSRACT_FailedMonitorAjaxDur, "Failed to calculate the duration of the ajax call, monitoring data for this ajax call won't be sent.", {
                         ajaxDiagnosticsMessage: AjaxMonitor.getFailedAjaxDiagnosticsMessage(xhr),
                         requestSentTime: xhr.ajaxData.requestSentTime,
-                        responseFinishedTime: xhr.ajaxData.responseFinishedTime
+                        resultmsgeFinishedTime: xhr.ajaxData.resultmsgeFinishedTime
                     }));
                 }
                 else {
@@ -1730,20 +1730,20 @@ var Microsoft;
                 xhr.open("POST", this._config.endpointUrl(), isAsync);
                 xhr.setRequestHeader("Content-type", "application/json");
                 xhr.onreadystatechange = function () { return Sender._xhrReadyStateChange(xhr, payload, countOfItemsInPayload); };
-                xhr.onerror = function (event) { return Sender._onError(payload, xhr.responseText || xhr.response || "", event); };
+                xhr.onerror = function (event) { return Sender._onError(payload, xhr.resultmsgeText || xhr.resultmsge || "", event); };
                 xhr.send(payload);
             };
             Sender.prototype._xdrSender = function (payload, isAsync) {
                 var xdr = new XDomainRequest();
                 xdr.onload = function () { return Sender._xdrOnLoad(xdr, payload); };
-                xdr.onerror = function (event) { return Sender._onError(payload, xdr.responseText || "", event); };
+                xdr.onerror = function (event) { return Sender._onError(payload, xdr.resultmsgeText || "", event); };
                 xdr.open('POST', this._config.endpointUrl());
                 xdr.send(payload);
             };
             Sender._xhrReadyStateChange = function (xhr, payload, countOfItemsInPayload) {
                 if (xhr.readyState === 4) {
                     if ((xhr.status < 200 || xhr.status >= 300) && xhr.status !== 0) {
-                        Sender._onError(payload, xhr.responseText || xhr.response || "");
+                        Sender._onError(payload, xhr.resultmsgeText || xhr.resultmsge || "");
                     }
                     else {
                         Sender._onSuccess(payload, countOfItemsInPayload);
@@ -1751,11 +1751,11 @@ var Microsoft;
                 }
             };
             Sender._xdrOnLoad = function (xdr, payload) {
-                if (xdr && (xdr.responseText + "" === "200" || xdr.responseText === "")) {
+                if (xdr && (xdr.resultmsgeText + "" === "200" || xdr.resultmsgeText === "")) {
                     Sender._onSuccess(payload, 0);
                 }
                 else {
-                    Sender._onError(payload, xdr && xdr.responseText || "");
+                    Sender._onError(payload, xdr && xdr.resultmsgeText || "");
                 }
             };
             Sender._onError = function (payload, message, event) {
@@ -2414,7 +2414,7 @@ var Microsoft;
                         perfTotal: ApplicationInsights.FieldType.Default,
                         networkConnect: ApplicationInsights.FieldType.Default,
                         sentRequest: ApplicationInsights.FieldType.Default,
-                        receivedResponse: ApplicationInsights.FieldType.Default,
+                        receivedresultmsge: ApplicationInsights.FieldType.Default,
                         domProcessing: ApplicationInsights.FieldType.Default,
                         properties: ApplicationInsights.FieldType.Default,
                         measurements: ApplicationInsights.FieldType.Default
@@ -2424,21 +2424,21 @@ var Microsoft;
                     if (timing) {
                         var total = PageViewPerformance.getDuration(timing.navigationStart, timing.loadEventEnd);
                         var network = PageViewPerformance.getDuration(timing.navigationStart, timing.connectEnd);
-                        var request = PageViewPerformance.getDuration(timing.requestStart, timing.responseStart);
-                        var response = PageViewPerformance.getDuration(timing.responseStart, timing.responseEnd);
-                        var dom = PageViewPerformance.getDuration(timing.responseEnd, timing.loadEventEnd);
+                        var request = PageViewPerformance.getDuration(timing.requestStart, timing.resultmsgeStart);
+                        var resultmsge = PageViewPerformance.getDuration(timing.resultmsgeStart, timing.resultmsgeEnd);
+                        var dom = PageViewPerformance.getDuration(timing.resultmsgeEnd, timing.loadEventEnd);
                         if (total == 0) {
-                            ApplicationInsights._InternalLogging.throwInternalNonUserActionable(ApplicationInsights.LoggingSeverity.WARNING, new ApplicationInsights._InternalLogMessage(ApplicationInsights._InternalMessageId.NONUSRACT_ErrorPVCalc, "error calculating page view performance.", { total: total, network: network, request: request, response: response, dom: dom }));
+                            ApplicationInsights._InternalLogging.throwInternalNonUserActionable(ApplicationInsights.LoggingSeverity.WARNING, new ApplicationInsights._InternalLogMessage(ApplicationInsights._InternalMessageId.NONUSRACT_ErrorPVCalc, "error calculating page view performance.", { total: total, network: network, request: request, resultmsge: resultmsge, dom: dom }));
                         }
-                        else if (total < Math.floor(network) + Math.floor(request) + Math.floor(response) + Math.floor(dom)) {
-                            ApplicationInsights._InternalLogging.throwInternalNonUserActionable(ApplicationInsights.LoggingSeverity.WARNING, new ApplicationInsights._InternalLogMessage(ApplicationInsights._InternalMessageId.NONUSRACT_ClientPerformanceMathError, "client performance math error.", { total: total, network: network, request: request, response: response, dom: dom }));
+                        else if (total < Math.floor(network) + Math.floor(request) + Math.floor(resultmsge) + Math.floor(dom)) {
+                            ApplicationInsights._InternalLogging.throwInternalNonUserActionable(ApplicationInsights.LoggingSeverity.WARNING, new ApplicationInsights._InternalLogMessage(ApplicationInsights._InternalMessageId.NONUSRACT_ClientPerformanceMathError, "client performance math error.", { total: total, network: network, request: request, resultmsge: resultmsge, dom: dom }));
                         }
                         else {
                             this.durationMs = total;
                             this.perfTotal = this.duration = ApplicationInsights.Util.msToTimeSpan(total);
                             this.networkConnect = ApplicationInsights.Util.msToTimeSpan(network);
                             this.sentRequest = ApplicationInsights.Util.msToTimeSpan(request);
-                            this.receivedResponse = ApplicationInsights.Util.msToTimeSpan(response);
+                            this.receivedresultmsge = ApplicationInsights.Util.msToTimeSpan(resultmsge);
                             this.domProcessing = ApplicationInsights.Util.msToTimeSpan(dom);
                             this.isValid = true;
                         }
@@ -2467,10 +2467,10 @@ var Microsoft;
                     var timing = window.performance.timing;
                     return timing.domainLookupStart > 0
                         && timing.navigationStart > 0
-                        && timing.responseStart > 0
+                        && timing.resultmsgeStart > 0
                         && timing.requestStart > 0
                         && timing.loadEventEnd > 0
-                        && timing.responseEnd > 0
+                        && timing.resultmsgeEnd > 0
                         && timing.connectEnd > 0
                         && timing.domLoading > 0;
                 };
