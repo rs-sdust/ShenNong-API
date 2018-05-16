@@ -27,7 +27,7 @@ namespace WebApi.Controllers
             ResultMsg<List<Farm>> resultmsg = new ResultMsg<List<Farm>>();
             HttpResponseMessage response = new HttpResponseMessage();
             //查询数据库
-            string str = "select name from tb_farm where address = @address";
+            string str = "select * from tb_farm where address = @address";
             PostgreSQL.OpenCon();
             var para = new DbParameter[1];
             para[0] = PostgreSQL.NewParameter("@address", farm.address);
@@ -142,15 +142,15 @@ namespace WebApi.Controllers
             if (role == "1")// "管理员"
             {
                
-                string str = "select * from  tb_user where mobile=@mobile;";  //SQL查询语句       
+                //string str = "select * from  tb_user where mobile=@mobile;";  //SQL查询语句       
                 PostgreSQL.OpenCon();
                 var trans = PostgreSQL.BeginTransaction();
                 try
                 {
-                    string str_update = "update tb_user set farm= @farm where mobile= @mobile;";
+                    string str_update = "update tb_user set farm= @farm where id=@id;";// mobile= @mobile;";
                     var para1 = new DbParameter[2];
                     para1[0] = PostgreSQL.NewParameter("@farm", user.farm);
-                    para1[1] = PostgreSQL.NewParameter("@mobile", user.mobile);
+                    para1[1] = PostgreSQL.NewParameter("@id", user.id);
                     var num = PostgreSQL.ExecuteNoneQuery(str_update, trans, para1);
                     PostgreSQL.CommitTransaction(trans);
                     ////查询数据库
