@@ -1,4 +1,5 @@
-﻿using SunGolden.DBUtils;
+﻿
+using SunGolden.DBUtils;
 using System;
 using System.Data.Common;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace WebApi.Auth
                 if (ValidateTicket(token))
                 {
                     base.IsAuthorized(actionContext);
+
                 }
                 else
                 {
@@ -34,8 +36,15 @@ namespace WebApi.Auth
             {
                 var attributes = actionContext.ActionDescriptor.GetCustomAttributes<AllowAnonymousAttribute>().OfType<AllowAnonymousAttribute>();
                 bool isAnonymous = attributes.Any(a => a is AllowAnonymousAttribute);
-                if (isAnonymous) base.OnAuthorization(actionContext);
-                else HandleUnauthorizedRequest(actionContext);
+                if (isAnonymous)
+                {
+                    base.OnAuthorization(actionContext);
+                }
+                  
+                else
+                {
+                    HandleUnauthorizedRequest(actionContext);
+                }       
             }
         }
 
