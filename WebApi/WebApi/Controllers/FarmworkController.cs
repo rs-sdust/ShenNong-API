@@ -21,7 +21,6 @@ namespace WebApi.Controllers
         public object GetMarket(Market market)
         {
             string token = null;
-
             //获取请求
             var request = HttpContext.Current.Request;
             //响应

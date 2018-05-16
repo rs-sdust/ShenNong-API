@@ -122,7 +122,6 @@ namespace WebApi.Controllers
             response.Headers.Add("Token", token);
             response.Content = new StringContent(resultObj);
             return response;
-
         }
         //加入农场
         [HttpPost]
@@ -186,7 +185,6 @@ namespace WebApi.Controllers
             response.Headers.Add("Token", token);
             response.Content = new StringContent(resultObj);
             return response;
-
         }
         //获取农场简报
         [HttpGet]

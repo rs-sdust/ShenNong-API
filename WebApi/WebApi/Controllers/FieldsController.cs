@@ -114,7 +114,6 @@ namespace WebApi.Controllers
             var resultObj = JsonConvert.SerializeObject(resultmsg, Formatting.Indented);
             response.Headers.Add("Token", token);
             response.Content = new StringContent(resultObj);
-
             return response;
         }
         //更新指定地块作物信息
@@ -183,13 +182,13 @@ namespace WebApi.Controllers
                 finally
                 {
                     PostgreSQL.CloseCon();
-                }
-                //添加响应头
-                var resultObj = JsonConvert.SerializeObject(resultmsg, Formatting.Indented);
-                response.Headers.Add("Token", token);
-                response.Content = new StringContent(resultObj);
+                } 
             }
-                return response;
+            //添加响应头
+            var resultObj = JsonConvert.SerializeObject(resultmsg, Formatting.Indented);
+            response.Headers.Add("Token", token);
+            response.Content = new StringContent(resultObj);
+            return response;
         }
        //批量修改地块作物类型
         [HttpPost]
@@ -302,7 +301,68 @@ namespace WebApi.Controllers
             response.Content = new StringContent(resultObj);
             return response;
         }
-       
+        //删除指定地块信息
+        [HttpPost]
+        [AuthFilterOutside]
+        public object DeleteField(Field field)
+        {
+            string token = null;
+            //获取请求
+            var request = HttpContext.Current.Request;
+            //声明响应
+            ResultMsg<Field> resultmsg = new ResultMsg<Field>();
+            HttpResponseMessage response = new HttpResponseMessage();
+            PostgreSQL.OpenCon();
+            //查询数据库，判断地块是否存在
+            string str_select = "select * from tb_field where id = @id;";
+            var para = new DbParameter[1];
+            para[0] = PostgreSQL.NewParameter("@id", field.id);     
+            var qField = PostgreSQL.ExecuteTQuery<Field>(str_select, null, para);
+            if (qField == null)
+            {
+                resultmsg.status = false;
+                resultmsg.msg = "地块不存在!";
+                resultmsg.data = null;
+                token = request.Headers["Token"];
+            }
+            else
+            {
+                var trans = PostgreSQL.BeginTransaction();
+                try
+                {
+                    //查询数据库
+                    string str = "delete  from tb_field where id = @id;";//name = @name and farm = @farm;";
+                    var para1 = new DbParameter[1];
+                    para1[0] = PostgreSQL.NewParameter("@id", field.id);
+                    var num = PostgreSQL.ExecuteNoneQuery(str, trans, para1);
+                    PostgreSQL.CommitTransaction(trans);
+                    //响应内容
+                    resultmsg.status = true;
+                    resultmsg.msg = "成功删除地块信息!";
+                    resultmsg.data = null;
+                    token = request.Headers["Token"];
+                }
+                catch (Exception ex)
+                {
+                    PostgreSQL.RollbackTransaction(trans);
+                    //响应内容
+                    resultmsg.status = false;
+                    resultmsg.msg = "[ERROR] 数据库操作出现异常：" + ex.Message;
+                    resultmsg.data = null;
+                    token = request.Headers["Token"];
+                }
+                finally
+                {
+                    PostgreSQL.CloseCon();
+                }
+            }
+            //添加响应头
+            var resultObj = JsonConvert.SerializeObject(resultmsg, Formatting.Indented);
+            response.Headers.Add("Token", token);
+            response.Content = new StringContent(resultObj);
+            return response;
+
+        }
 
         ////获取指定地块农事信息
         //[HttpGet]

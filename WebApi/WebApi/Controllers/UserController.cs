@@ -246,8 +246,7 @@ namespace WebApi.Controllers
                 {
                     PostgreSQL.CloseCon();
                 }
-            }
-           
+            }          
             //添加响应头
             var resultObj = JsonConvert.SerializeObject(resultmsg, Formatting.Indented);
             response.Headers.Add("Token", token);
