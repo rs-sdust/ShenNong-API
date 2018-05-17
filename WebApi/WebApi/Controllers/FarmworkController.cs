@@ -119,7 +119,7 @@ namespace WebApi.Controllers
             var request = HttpContext.Current.Request;
 
             //查询数据库
-            string str_select = "select * from tb_field_live where where id=@id;";// field = @field";
+            string str_select = "select * from tb_field_live where  id=@id;";// field = @field";
             PostgreSQL.OpenCon();
 
             var para = new DbParameter[1];
