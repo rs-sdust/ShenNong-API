@@ -12,11 +12,11 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
+    [AuthFilterOutside]
     public class FieldsController : ApiController
     {
         //获取地块列表
         [HttpGet]
-        [AuthFilterOutside]
         public object GetFields(Field field)
         { 
             //获取请求
@@ -28,8 +28,7 @@ namespace WebApi.Controllers
             string str = "select name,area,currentcrop,thumb from tb_field where farm = @farm";
             PostgreSQL.OpenCon();
             var para = new DbParameter[1];
-            para[0] = PostgreSQL.NewParameter("@farm", field.farm);
-           
+            para[0] = PostgreSQL.NewParameter("@farm", field.farm);      
             var qField = PostgreSQL.ExecuteTListQuery<GetFields>(str, null, para);
             PostgreSQL.CloseCon();
            //响应
@@ -42,11 +41,9 @@ namespace WebApi.Controllers
             response.Headers.Add("Token",token );
             response.Content = new StringContent(resultObj);
             return response;
-        }
-       
+        }       
         //添加地块
         [HttpPost]
-        [AuthFilterOutside]
         public object AddField(Field field)
         {
             string token = null;
@@ -61,8 +58,7 @@ namespace WebApi.Controllers
             var para1 = new DbParameter[2];
             para1[0] = PostgreSQL.NewParameter("@name", field.name );
             para1[1] = PostgreSQL.NewParameter("@farm", field.farm);
-            var qField = PostgreSQL.ExecuteTQuery<Field>(str_select, null, para1);
-        
+            var qField = PostgreSQL.ExecuteTQuery<Field>(str_select, null, para1);      
             //判断地块名是否存在
             if (qField != null)
             {
@@ -108,8 +104,7 @@ namespace WebApi.Controllers
                 {
                     PostgreSQL.CloseCon();
                 }
-            }
-           
+            }          
             //添加响应头
             var resultObj = JsonConvert.SerializeObject(resultmsg, Formatting.Indented);
             response.Headers.Add("Token", token);
@@ -118,7 +113,6 @@ namespace WebApi.Controllers
         }
         //更新指定地块作物信息
         [HttpPost]
-        [AuthFilterOutside]
         public object UpdateField(Field field)
         {
             string token = null;
@@ -127,7 +121,6 @@ namespace WebApi.Controllers
             //声明响应
             ResultMsg<Field> resultmsg = new ResultMsg<Field>();
             HttpResponseMessage response = new HttpResponseMessage();
-
             //查询数据库
             PostgreSQL.OpenCon();
             string str_select = "select * from tb_field where id = @id;";//name = @name and farm = @farm;";
@@ -192,8 +185,7 @@ namespace WebApi.Controllers
         }
        //批量修改地块作物类型
         [HttpPost]
-        [AuthFilterOutside]
-        public object BatchField(Field field)//////////
+        public object BatchField(Field field)
         {
             string token = null;
             //获取请求
@@ -201,7 +193,6 @@ namespace WebApi.Controllers
             //声明响应
             ResultMsg<Field> resultmsg = new ResultMsg<Field>();
             HttpResponseMessage response = new HttpResponseMessage();
-
             //查询数据库
             PostgreSQL.OpenCon();
             string str_update = "update tb_field set sowdate = @sowdate ,currentcrop = @currentcrop where id=@id;";//currentcrop = @currentcrop and farm = @farm";
@@ -243,11 +234,9 @@ namespace WebApi.Controllers
         }
         //获取地块物候期
         [HttpGet]
-        [AuthFilterOutside]
         public object GetFieldPhenophase(Phenophase phen)
         {
             string token = null;
-
             //获取请求
             var request = HttpContext.Current.Request;
             //响应
@@ -260,10 +249,20 @@ namespace WebApi.Controllers
             para[0] = PostgreSQL.NewParameter("@crop_type", phen.crop_type);
             var qphen = PostgreSQL.ExecuteTQuery<Phenophase>(str, null, para);
             PostgreSQL.CloseCon();
+            if(qphen==null)
+            {
+                //响应内容
+                resultmsg.status = false;
+                resultmsg.msg = "未获取此地块的物候信息!";
+                resultmsg.data = null;
+            }
+            else
+            {
+                resultmsg.status = true;
+                resultmsg.msg = "成功获取此地块的物候信息!";
+                resultmsg.data = qphen;
+            }
             //响应内容
-            resultmsg.status = true;
-            resultmsg.msg = "成功获取此地块的物候信息!";
-            resultmsg.data = qphen;
             token = request.Headers["Token"];
 
             //添加响应头
@@ -272,10 +271,8 @@ namespace WebApi.Controllers
             response.Content = new StringContent(resultObj);
             return response;
         }
-
         //获取作物类型
         [HttpGet]
-        [AuthFilterOutside]
         public object GetCrops()
         {
             string token = null;
@@ -303,7 +300,6 @@ namespace WebApi.Controllers
         }
         //删除指定地块信息
         [HttpPost]
-        [AuthFilterOutside]
         public object DeleteField(Field field)
         {
             string token = null;
@@ -363,7 +359,6 @@ namespace WebApi.Controllers
             return response;
 
         }
-
         ////获取指定地块农事信息
         //[HttpGet]
         //[AuthFilterOutside]

@@ -13,11 +13,11 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
+    [AuthFilterOutside]
     public class FarmController : ApiController
     {
         //获取农场列表
         [HttpPost]
-        [AuthFilterOutside]
         public object GetFarms(Farm farm)
         {
             string token = null;
@@ -33,22 +33,29 @@ namespace WebApi.Controllers
             para[0] = PostgreSQL.NewParameter("@address", farm.address);
             var qfarm = PostgreSQL.ExecuteTListQuery<Farm>(str, null, para);
             PostgreSQL.CloseCon();
-            //响应内容
-            resultmsg.status = true;
-            resultmsg.msg = "成功获取农场列表!";
-            resultmsg.data = qfarm;
+            if(qfarm.Count <= 0)
+            {
+                //响应内容
+                resultmsg.status = false;
+                resultmsg.msg = "未获取此区域的农场列表!";
+                resultmsg.data = null;
+            }
+            else
+            {
+                resultmsg.status = true;
+                resultmsg.msg = "成功获取农场列表!";
+                resultmsg.data = qfarm;
+            }
+            //响应内容           
             token = request.Headers["Token"];
-
             //添加响应头
             var resultObj = JsonConvert.SerializeObject(resultmsg, Formatting.Indented);
             response.Headers.Add("Token", token);
             response.Content = new StringContent(resultObj);
             return response;
         }
-
         //创建农场
         [HttpPost]
-        [AuthFilterOutside]
         public object CreatFarm(Farm farm)
         {
             string token = null;
@@ -125,7 +132,6 @@ namespace WebApi.Controllers
         }
         //加入农场
         [HttpPost]
-        [AuthFilterOutside]
         public object JoinFarm(User user)
         {
             string token = null;
@@ -133,14 +139,12 @@ namespace WebApi.Controllers
             var request = HttpContext.Current.Request;
             token = request.Headers["Token"];
             var role = RoleType(token);
-
             //响应
             ResultMsg<User> resultmsg = new ResultMsg<User>();
             HttpResponseMessage response = new HttpResponseMessage();
 
             if (role == "1")// "管理员"
             {
-               
                 //string str = "select * from  tb_user where mobile=@mobile;";  //SQL查询语句       
                 PostgreSQL.OpenCon();
                 var trans = PostgreSQL.BeginTransaction();
@@ -152,7 +156,7 @@ namespace WebApi.Controllers
                     para1[1] = PostgreSQL.NewParameter("@id", user.id);
                     var num = PostgreSQL.ExecuteNoneQuery(str_update, trans, para1);
                     PostgreSQL.CommitTransaction(trans);
-                    ////查询数据库
+                    //查询数据库
                     //var para2 = new DbParameter[1];
                     //para2[0] = PostgreSQL.NewParameter("@mobile", user.mobile);
                     //var qfarm1 = PostgreSQL.ExecuteTQuery<User>(str, null, para2);
@@ -188,14 +192,13 @@ namespace WebApi.Controllers
         }
         //获取农场简报
         [HttpGet]
-        [AuthFilterOutside]//????????????????????????
         public object GetFarmbrief(string name, string weather)
         {
 
             string response = null;
             return response;
         }
-
+        //获取token里role的值
         private string RoleType(string token)
         {
             //解密Token

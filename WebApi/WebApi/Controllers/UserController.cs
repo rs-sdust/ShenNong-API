@@ -13,8 +13,7 @@ using WebApi.Auth;
 using WebApi.Models;
 
 namespace WebApi.Controllers
-{
-   
+{ 
     public class UserController : ApiController
     {
         //登录
@@ -24,7 +23,7 @@ namespace WebApi.Controllers
             string token="";        
             ResultMsg<User> resultmsg = new ResultMsg<User>();
             HttpResponseMessage response = new HttpResponseMessage();
-            if (user.mobile.Length != 11 || !Regex.IsMatch(user.mobile, @"^[0-9]*[1-9][0-9]*$"))
+            if (user.mobile.Length != 11 || !Regex.IsMatch(user.mobile, @"^[0-9]*[0-9][0-9]*$"))
             {
                 resultmsg.status = false;
                 resultmsg.msg = "手机号必须是11位有效数字！";
@@ -61,29 +60,35 @@ namespace WebApi.Controllers
                         para1[3] = PostgreSQL.NewParameter("@role", user.role);
                         var num = PostgreSQL.ExecuteNoneQuery(str_insert, trans, para1);
                         PostgreSQL.CommitTransaction(trans);
+                        //重新查询
+                        var para2 = new DbParameter[1];
+                        para2[0] = PostgreSQL.NewParameter("@mobile", user.mobile);
+                        var qUser1 = PostgreSQL.ExecuteTQuery<User>(str_select, null, para2);
+                        //响应内容
+                        resultmsg.status = true;
+                        resultmsg.msg = "登录成功!";
+                        resultmsg.data = qUser1;
+                        token = SunGolden.Encryption.DEncrypt.Encrypt(user.mobile + "," + user.role);
                     }
                     catch (Exception ex)
                     {
                         PostgreSQL.RollbackTransaction(trans);
+                        //响应内容
+                        resultmsg.status = false;
+                        resultmsg.msg = "[ERROR] 数据库操作出现异常：" + ex.Message;
+                        resultmsg.data = null;
+                        token = null;
                     }
-                   
-                    //重新查询
-                    var para2 = new DbParameter[1];
-                    para2[0] = PostgreSQL.NewParameter("@mobile", user.mobile);
-                    var qUser1 = PostgreSQL.ExecuteTQuery<User>(str_select, null, para2);
-
-                    resultmsg.status = true;
-                    resultmsg.msg = "登录成功！";
-                    resultmsg.data = qUser1;
-                    token = SunGolden.Encryption.DEncrypt.Encrypt(user.mobile + "," + user.role);
-                    PostgreSQL.CloseCon();
+                   finally
+                    {
+                        PostgreSQL.CloseCon();
+                    }                 
                     //添加OpenIM用户信息
                     //Userinfo info = new Userinfo();
                     //info.mobile = user.mobile;
                     //info.userid = user.mobile;
                     //info.password = SunGolden.Encryption.DEncrypt.Encrypt(user.mobile);
-                    //OpenIm(info);
-                   
+                    //OpenIm(info);                   
                 }
             }
             //添加响应头
@@ -161,35 +166,34 @@ namespace WebApi.Controllers
             PostgreSQL.OpenCon();
             //查询数据库 
             string str_select = "select * from tb_user_task where  farm= @farm and creator= @creator;";
-            var para2 = new DbParameter[2];
-            para2[0] = PostgreSQL.NewParameter("@creator", task.creator);
-            para2[1] = PostgreSQL.NewParameter("@farm", task.farm);
-            var qselcet = PostgreSQL.ExecuteTQuery<UserTask>(str_select, null, para2);
+            var para = new DbParameter[2];
+            para[0] = PostgreSQL.NewParameter("@creator", task.creator);
+            para[1] = PostgreSQL.NewParameter("@farm", task.farm);
+            var qselcet = PostgreSQL.ExecuteTQuery<UserTask>(str_select, null, para);
             if(qselcet!=null)
             {
                 var trans = PostgreSQL.BeginTransaction();
-                string str_update = "update tb_user_task set state=@state,agree=@agree where farm= @farm and creator= @creator;";
+                string str_update = "update tb_user_task set state=@state,agree=@agree,description=@description where farm= @farm and creator= @creator;";
                 try
                 {
                     
-                    var para = new DbParameter[4];
-                    para[0] = PostgreSQL.NewParameter("@creator", task.creator);
-                    para[1] = PostgreSQL.NewParameter("@state", task.state);
-                    para[2] = PostgreSQL.NewParameter("@agree", task.agree);
-                    para[3] = PostgreSQL.NewParameter("@farm", task.farm);
-                    var num = PostgreSQL.ExecuteNoneQuery(str_update, trans, para);
+                    var para1 = new DbParameter[5];
+                    para1[0] = PostgreSQL.NewParameter("@creator", task.creator);
+                    para1[1] = PostgreSQL.NewParameter("@state", task.state);
+                    para1[2] = PostgreSQL.NewParameter("@agree", task.agree);
+                    para1[3] = PostgreSQL.NewParameter("@farm", task.farm);
+                    para1[4] = PostgreSQL.NewParameter("@description", task.description);
+                    var num = PostgreSQL.ExecuteNoneQuery(str_update, trans, para1);
                     PostgreSQL.CommitTransaction(trans);
+                    //再次查询
+                    var para2 = new DbParameter[2];
+                    para2[0] = PostgreSQL.NewParameter("@creator", task.creator);
+                    para2[1] = PostgreSQL.NewParameter("@farm", task.farm);
+                    var qlist = PostgreSQL.ExecuteTQuery<UserTask>(str_select, null, para2);
                     //响应内容
-                    if (task.agree==false)
-                    {
-                        resultmsg.msg = "不同意加入农场！";
-                    }
-                   else
-                    {
-                        resultmsg.msg = "同意加入农场！";
-                    }
                     resultmsg.status = true;
-                    resultmsg.data = null;
+                    resultmsg.msg = task.description;
+                    resultmsg.data = qlist;
                     token = request.Headers["Token"];
                 }
                 catch (Exception ex)
@@ -209,27 +213,26 @@ namespace WebApi.Controllers
                 var trans = PostgreSQL.BeginTransaction();
                 try
                 {
-                    var para = new DbParameter[7];
-                    para[0] = PostgreSQL.NewParameter("@creator", task.creator);
-                    para[1] = PostgreSQL.NewParameter("@type", task.type);
-                    para[2] = PostgreSQL.NewParameter("@examiner", task.examiner);
-                    para[3] = PostgreSQL.NewParameter("@description", task.description);
-                    para[4] = PostgreSQL.NewParameter("@state", task.state);
-                    para[5] = PostgreSQL.NewParameter("@agree", task.agree);
-                    para[6] = PostgreSQL.NewParameter("@farm", task.farm);
+                    var para3 = new DbParameter[7];
+                    para3[0] = PostgreSQL.NewParameter("@creator", task.creator);
+                    para3[1] = PostgreSQL.NewParameter("@type", task.type);
+                    para3[2] = PostgreSQL.NewParameter("@examiner", task.examiner);
+                    para3[3] = PostgreSQL.NewParameter("@description", task.description);
+                    para3[4] = PostgreSQL.NewParameter("@state", task.state);
+                    para3[5] = PostgreSQL.NewParameter("@agree", task.agree);
+                    para3[6] = PostgreSQL.NewParameter("@farm", task.farm);
 
-                    var num = PostgreSQL.ExecuteNoneQuery(str, trans, para);
+                    var num = PostgreSQL.ExecuteNoneQuery(str, trans, para3);
                     PostgreSQL.CommitTransaction(trans);
                     //查询数据库 
-                    //string str_select = "select agree from tb_user_task where  farm= @farm and creator= @creator;";
-                    var para1 = new DbParameter[2];
-                    para1[0] = PostgreSQL.NewParameter("@creator", task.creator);
-                    para1[1] = PostgreSQL.NewParameter("@farm", task.farm);
-                    var qtask = PostgreSQL.ExecuteTQuery<UserTask>(str_select, null, para1);
+                    var para4 = new DbParameter[2];
+                    para4[0] = PostgreSQL.NewParameter("@creator", task.creator);
+                    para4[1] = PostgreSQL.NewParameter("@farm", task.farm);
+                    var qtask = PostgreSQL.ExecuteTQuery<UserTask>(str_select, null, para4);
 
                     //响应内容
                     resultmsg.status = true;
-                    resultmsg.msg = "等待验证";
+                    resultmsg.msg = task.description;
                     resultmsg.data = qtask;
                     token = request.Headers["Token"];
                 }
@@ -253,7 +256,6 @@ namespace WebApi.Controllers
             response.Content = new StringContent(resultObj);
             return response;
         }
-
         //OpenIM
         private void OpenIm(Userinfo userinfo)
         {
