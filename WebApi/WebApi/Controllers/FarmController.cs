@@ -13,10 +13,17 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
+    /// <summary>
+    /// 农场相关操作
+    /// </summary>
     [AuthFilterOutside]
     public class FarmController : ApiController
     {
-        //获取农场列表
+        /// <summary>
+        /// 获取农场列表
+        /// </summary>
+        /// <param name="farm">农场类</param>
+        /// <returns></returns>
         [HttpPost]
         public object GetFarms(Farm farm)
         {
@@ -54,7 +61,11 @@ namespace WebApi.Controllers
             response.Content = new StringContent(resultObj);
             return response;
         }
-        //创建农场
+        /// <summary>
+        /// 创建农场
+        /// </summary>
+        /// <param name="farm">农场类</param>
+        /// <returns></returns>
         [HttpPost]
         public object CreatFarm(Farm farm)
         {
@@ -130,7 +141,11 @@ namespace WebApi.Controllers
             response.Content = new StringContent(resultObj);
             return response;
         }
-        //加入农场
+        /// <summary>
+        /// 加入农场
+        /// </summary>
+        /// <param name="user">用户类</param>
+        /// <returns></returns>
         [HttpPost]
         public object JoinFarm(User user)
         {
@@ -190,9 +205,13 @@ namespace WebApi.Controllers
             response.Content = new StringContent(resultObj);
             return response;
         }
-        //获取农场简报
+        /// <summary>
+        /// 获取农场简报
+        /// </summary>
+        /// <param name="farmid">农场id</param>
+        /// <returns></returns>
         [HttpGet]
-        public object GetFarmbrief(string name, string weather)
+        public object GetFarmbrief(string farmid)
         {
 
             string response = null;

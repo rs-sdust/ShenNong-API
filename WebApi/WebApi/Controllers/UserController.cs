@@ -14,9 +14,16 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 { 
+    /// <summary>
+    /// 用户相关操作
+    /// </summary>
     public class UserController : ApiController
     {
-        //登录
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <param name="user">用户类</param>
+        /// <returns></returns>
         [HttpPost]
         public object Login(User user)
         {
@@ -97,7 +104,11 @@ namespace WebApi.Controllers
             response.Content = new StringContent(resultObj);
             return response;
         }
-        //编辑用户资料
+        /// <summary>
+        /// 编辑用户资料
+        /// </summary>
+        /// <param name="user">用户类</param>
+        /// <returns></returns>
         [HttpPost]
         [AuthFilterOutside]
         public object UpdateUser(User user)
@@ -151,7 +162,11 @@ namespace WebApi.Controllers
             response.Content = new StringContent(resultObj);
             return response;
         }
-        //等待验证
+        /// <summary>
+        /// 等待验证
+        /// </summary>
+        /// <param name="task">待处理通知任务</param>
+        /// <returns></returns>
         [HttpPost]
         [AuthFilterOutside]
         public object WaitProve(UserTask task)

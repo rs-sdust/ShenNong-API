@@ -11,10 +11,18 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
+    /// <summary>
+    /// 农情相关操作
+    /// </summary>
     [AuthFilterOutside]
     public class FarmworkController : ApiController
     {
-        //获取市场行情信息
+
+        /// <summary>
+        /// 获取市场行情信息
+        /// </summary>
+        /// <param name="market">市场行情类</param>
+        /// <returns></returns>
         [HttpGet]
         public object GetMarket(Market market)
         {
@@ -52,7 +60,11 @@ namespace WebApi.Controllers
             response.Content = new StringContent(resultObj);
             return response;
         }
-        //获取指定农情产品信息表
+        /// <summary>
+        /// 获取指定农情产品信息表
+        /// </summary>
+        /// <param name="rsi">遥感农情信息类</param>
+        /// <returns></returns>
         [HttpGet]
         public object GetAgricultureinfo(Field_rsi  rsi)
         {
@@ -91,7 +103,10 @@ namespace WebApi.Controllers
             response.Content = new StringContent(resultObj);
             return response;
         }
-        //获取农情类型表
+        /// <summary>
+        /// 获取农情类型表
+        /// </summary>
+        /// <returns>农情列表</returns>
         [HttpGet]
         public object GetRsiType()
         {
@@ -118,7 +133,11 @@ namespace WebApi.Controllers
             response.Content = new StringContent(resultObj);
             return response;
         }
-        //获取指定地块的实况信息
+        /// <summary>
+        /// 获取指定地块的实况信息
+        /// </summary>
+        /// <param name="live">地块实况信息类</param>
+        /// <returns>地块实况信息列表</returns>
         [HttpGet]
         public object GetFieldLive(Field_live live )
         {
@@ -156,7 +175,11 @@ namespace WebApi.Controllers
             response.Content = new StringContent(resultObj);
             return response;
         }
-        //添加指定地块的实况信息
+        /// <summary>
+        /// 添加指定地块的实况信息
+        /// </summary>
+        /// <param name="live">地块实况信息类</param>
+        /// <returns></returns>
         [HttpPost]
         public object AddFieldLive(Field_live live)
         {

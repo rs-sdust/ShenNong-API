@@ -12,24 +12,31 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
+    /// <summary>
+    /// 地块相关操作
+    /// </summary>
     [AuthFilterOutside]
     public class FieldsController : ApiController
     {
-        //获取地块列表
+        /// <summary>
+        /// 获取地块列表
+        /// </summary>
+        /// <param name="field">地块类</param>
+        /// <returns></returns>
         [HttpGet]
         public object GetFields(Field field)
         { 
             //获取请求
             var request = HttpContext.Current.Request;
             //声明响应
-            ResultMsg<List<GetFields>> resultmsg = new ResultMsg<List<GetFields>>();
+            ResultMsg<List<Field>> resultmsg = new ResultMsg<List<Field>>();
             HttpResponseMessage response = new HttpResponseMessage();
             //查询数据库
-            string str = "select name,area,currentcrop,thumb from tb_field where farm = @farm";
+            string str = "select * from tb_field where farm = @farm";
             PostgreSQL.OpenCon();
             var para = new DbParameter[1];
             para[0] = PostgreSQL.NewParameter("@farm", field.farm);      
-            var qField = PostgreSQL.ExecuteTListQuery<GetFields>(str, null, para);
+            var qField = PostgreSQL.ExecuteTListQuery<Field>(str, null, para);
             PostgreSQL.CloseCon();
            //响应
             resultmsg.status = true;
@@ -41,8 +48,12 @@ namespace WebApi.Controllers
             response.Headers.Add("Token",token );
             response.Content = new StringContent(resultObj);
             return response;
-        }       
-        //添加地块
+        }
+        /// <summary>
+        /// 添加地块
+        /// </summary>
+        /// <param name="field">地块类</param>
+        /// <returns></returns>
         [HttpPost]
         public object AddField(Field field)
         {
@@ -111,7 +122,11 @@ namespace WebApi.Controllers
             response.Content = new StringContent(resultObj);
             return response;
         }
-        //更新指定地块作物信息
+        /// <summary>
+        /// 更新指定地块作物信息
+        /// </summary>
+        /// <param name="field">地块类</param>
+        /// <returns></returns>
         [HttpPost]
         public object UpdateField(Field field)
         {
@@ -183,7 +198,11 @@ namespace WebApi.Controllers
             response.Content = new StringContent(resultObj);
             return response;
         }
-       //批量修改地块作物类型
+        /// <summary>
+        /// 批量修改地块作物类型
+        /// </summary>
+        /// <param name="field">地块类</param>
+        /// <returns></returns>
         [HttpPost]
         public object BatchField(Field field)
         {
@@ -232,7 +251,11 @@ namespace WebApi.Controllers
             response.Content = new StringContent(resultObj);
             return response;
         }
-        //获取地块物候期
+        /// <summary>
+        /// 获取地块物候期
+        /// </summary>
+        /// <param name="phen">物候期类</param>
+        /// <returns></returns>
         [HttpGet]
         public object GetFieldPhenophase(Phenophase phen)
         {
@@ -271,7 +294,10 @@ namespace WebApi.Controllers
             response.Content = new StringContent(resultObj);
             return response;
         }
-        //获取作物类型
+        /// <summary>
+        /// 获取作物类型
+        /// </summary>
+        /// <returns>作物列表</returns>
         [HttpGet]
         public object GetCrops()
         {
@@ -298,7 +324,11 @@ namespace WebApi.Controllers
             response.Content = new StringContent(resultObj);
             return response;
         }
-        //删除指定地块信息
+        /// <summary>
+        /// 删除指定地块信息
+        /// </summary>
+        /// <param name="field">地块类</param>
+        /// <returns></returns>
         [HttpPost]
         public object DeleteField(Field field)
         {
