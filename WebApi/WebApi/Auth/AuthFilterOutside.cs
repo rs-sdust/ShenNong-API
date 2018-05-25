@@ -6,12 +6,16 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
+using WebApi.Models;
 
 namespace WebApi.Auth
 {
     public class AuthFilterOutside: AuthorizeAttribute
     {
-        //重写基类的验证方式，加入我们自定义的Ticket验证  
+        /// <summary>
+        /// 重写基类的验证方式，加入我们自定义的Ticket验证 
+        /// </summary>
+        /// <param name="actionContext">请求消息</param>
         public override void OnAuthorization(HttpActionContext actionContext)
         {
             //url获取token  
@@ -47,8 +51,11 @@ namespace WebApi.Auth
                 }       
             }
         }
-
-        //校验票据（数据库数据匹配）  
+        /// <summary>
+        /// 校验票据（数据库数据匹配）
+        /// </summary>
+        /// <param name="encryptToken">令牌</param>
+        /// <returns></returns>
         private bool ValidateTicket(string encryptToken)
         {
             bool flag = false;
@@ -58,22 +65,28 @@ namespace WebApi.Auth
                 string strtoken = SunGolden.Encryption.DEncrypt.Decrypt(encryptToken);
                 //
                 var index = strtoken.IndexOf(",");
+                var indexend = strtoken.LastIndexOf(",");
                 string str_mobile = strtoken.Substring(0, index);
-                string str_role = strtoken.Substring(index + 1);
+                string str_role = strtoken.Substring(index + 1,1);
+                DateTime vaild_time =Convert.ToDateTime( strtoken.Substring(indexend + 1));
                 //获取数据库用户信息
-                PostgreSQL.OpenCon();
+                PostgreSQL.OpenCon();//打开数据库
                 string str_select = "select * from tb_user where mobile = @mobile;";
                 var para = new DbParameter[1];
                 para[0] = PostgreSQL.NewParameter("@mobile", str_mobile);
-                var qUser = PostgreSQL.ExecuteTableQuery(str_select, null, para);
-                PostgreSQL.CloseCon();       
+                var qUser = PostgreSQL.ExecuteTQuery<User>(str_select, null, para);
+                PostgreSQL.CloseCon();//关闭数据库
                 if (qUser !=null) //存在  
-                { 
-                    flag = true;
+                {
+                    flag = (DateTime.Now <= vaild_time )? true : false;
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                flag = false;
+            }
             return flag;
         }
+       
     }
 }

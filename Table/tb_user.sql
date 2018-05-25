@@ -11,7 +11,7 @@ Target Server Type    : PGSQL
 Target Server Version : 100100
 File Encoding         : 65001
 
-Date: 2018-05-15 14:23:14
+Date: 2018-05-23 09:44:19
 */
 
 
@@ -41,17 +41,13 @@ COMMENT ON COLUMN "public"."tb_user"."farm" IS 'FK_农场编号';
 COMMENT ON COLUMN "public"."tb_user"."icon" IS '用户头像连接';
 
 -- ----------------------------
--- Records of tb_user
--- ----------------------------
-INSERT INTO "public"."tb_user" VALUES ('21', '11140429859', '11140429859', null, '22dd', '1', '1', null);
-INSERT INTO "public"."tb_user" VALUES ('25', '17610110527', '17610110527', null, 'R71jWYv0d7DMwHR/KmOPgA==', '1', '1', null);
-INSERT INTO "public"."tb_user" VALUES ('26', '18205429829', '18205429829', null, 'qZHh/al8xkCCZmJ7Atd8kA==', '1', '1', null);
-INSERT INTO "public"."tb_user" VALUES ('35', '18215429829', '18215429829', null, 'WgcvO/rO7niCZmJ7Atd8kA==', '1', '1', null);
-INSERT INTO "public"."tb_user" VALUES ('36', '17611110527', '17611110527', null, '0ibBf1hbocfMwHR/KmOPgA==', '1', '1', null);
-
--- ----------------------------
 -- Alter Sequences Owned By 
 -- ----------------------------
+
+-- ----------------------------
+-- Uniques structure for table tb_user
+-- ----------------------------
+ALTER TABLE "public"."tb_user" ADD UNIQUE ("mobile");
 
 -- ----------------------------
 -- Primary Key structure for table tb_user

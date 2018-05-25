@@ -20,7 +20,7 @@ Date: 2018-05-15 14:22:58
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."tb_market";
 CREATE TABLE "public"."tb_market" (
-"id" int2 DEFAULT nextval('tb_market_id_seq'::regclass) NOT NULL,
+"id" serial2 NOT NULL,
 "crop_type" int4 DEFAULT '-1'::integer NOT NULL,
 "crop_price" float8 DEFAULT 0 NOT NULL,
 "time" date NOT NULL

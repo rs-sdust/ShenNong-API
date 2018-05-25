@@ -185,11 +185,11 @@ namespace WebApi.Models
         /// <summary>
         /// 病害类型
         /// </summary>
-        public string disease { get; set; }
+        public int disease { get; set; }
         /// <summary>
         /// 虫害类型
         /// </summary>
-        public string pest { get; set; }
+        public int pest { get; set; }
         /// <summary>
         /// 采集人
         /// </summary>
@@ -206,5 +206,28 @@ namespace WebApi.Models
         /// 图片链接
         /// </summary>
         public string picture { get; set; }
+    }
+    /// <summary>
+    /// 产品等级类
+    /// </summary>
+    public class Rsi_grade
+    {
+        /// <summary>
+        /// 产品等级主键
+        /// </summary>
+        public int id { get; set; }
+        /// <summary>
+        /// 产品等级
+        /// </summary>
+        public int grade { get; set;}
+        /// <summary>
+        /// 农情类型
+        /// </summary>
+        public int rsi_type { get; set; }
+        /// <summary>
+        /// 产品等级名称
+        /// </summary>
+        public string name { get; set; }
+
     }
 }
