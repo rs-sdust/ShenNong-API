@@ -12,7 +12,7 @@ using WebApi.Models;
 namespace WebApi.Controllers
 {
     /// <summary>
-    /// 农情相关操作
+    /// 农情相关接口
     /// </summary>
     [AuthFilterOutside]
     public class FarmworkController : ApiController
@@ -61,36 +61,7 @@ namespace WebApi.Controllers
             response.Content = new StringContent(resultObj);
             return response;
         }
-        /// <summary>
-        /// 获取农情类型表
-        /// </summary>
-        /// <returns>农情列表</returns>
-        [HttpGet]
-        public object GetRsiType()
-        {
-            string token = null;
-            //获取请求
-            var request = HttpContext.Current.Request;
-            //响应
-            ResultMsg<List<RSI_type>> resultmsg = new ResultMsg<List<RSI_type>>();
-            HttpResponseMessage response = new HttpResponseMessage();
-            PostgreSQL.OpenCon();//打开数据库
-            //查询数据库
-            string str_select = "select * from dic_rsi_type ";
-            var para = new DbParameter[0];
-            var qRsiType = PostgreSQL.ExecuteTListQuery<RSI_type>(str_select, null, para);
-            PostgreSQL.CloseCon();  //关闭数据库    
-            //返回信息
-            resultmsg.status = true;
-            resultmsg.msg = "成功获取农情类型列表！";
-            resultmsg.data = qRsiType;
-            token = request.Headers["Token"];
-            //添加响应头
-            var resultObj = JsonConvert.SerializeObject(resultmsg, Formatting.Indented);
-            response.Headers.Add("Token", token);
-            response.Content = new StringContent(resultObj);
-            return response;
-        }
+       
         /// <summary>
         /// 获取指定地块的实况信息
         /// </summary>
@@ -103,16 +74,16 @@ namespace WebApi.Controllers
             //获取请求
             var request = HttpContext.Current.Request;
             //响应
-            ResultMsg<Field_live> resultmsg = new ResultMsg<Field_live>();
+            ResultMsg<List<Field_live>> resultmsg = new ResultMsg<List<Field_live>>();
             HttpResponseMessage response = new HttpResponseMessage();
             PostgreSQL.OpenCon();//打开数据库
             //查询数据库
-            string str_select = "select * from tb_field_live where  field = @field";
+            string str_select = "select id,field,growth,moisture,disease,pest,collector,collect_date, st_astext(gps) gps,picture from tb_field_live where  field = @field";
             var para = new DbParameter[1];
             para[0] = PostgreSQL.NewParameter("@field", field);
-            var qlive = PostgreSQL.ExecuteTQuery<Field_live>(str_select, null, para);
+            var qlive = PostgreSQL.ExecuteTListQuery<Field_live>(str_select, null, para);
             PostgreSQL.CloseCon();//关闭数据库
-            if (qlive == null)
+            if (qlive.Count <= 0)
             {
                 //返回信息
                 resultmsg.status = false;
@@ -147,7 +118,7 @@ namespace WebApi.Controllers
             //响应
             ResultMsg<Field_live> resultmsg = new ResultMsg<Field_live>();
             HttpResponseMessage response = new HttpResponseMessage();
-            if (live == null)//判断输入的数据格式是否正确
+            if (live == null||live.gps==null||live.picture==null)//判断输入的数据格式是否正确
             {
                 resultmsg.status = false;
                 resultmsg.msg = "输入的数据格式不正确,请检查后重新输入!";
@@ -169,7 +140,7 @@ namespace WebApi.Controllers
             var para1 = new DbParameter[1];
             para1[0] = PostgreSQL.NewParameter("@moblie", str_mobile);
             var quser = PostgreSQL.ExecuteTQuery<User>(str1, null, para1);
-            if(quser.id != live.collector)
+            if(live.collector != quser.id  )
             {
                 //返回信息
                 resultmsg.status = false;
@@ -182,26 +153,28 @@ namespace WebApi.Controllers
                 response.Content = new StringContent(resultObj1);
                 return response;
             }
-            //查询数据库，判断地块是否存在
-            string str_select = "select * from tb_field_live where field = @field";
-            var para = new DbParameter[1];
-            para[0] = PostgreSQL.NewParameter("@field", live.field);
-            var qLive = PostgreSQL.ExecuteTQuery<Field_live>(str_select, null, para);
-            if (qLive != null)
-            {
-                //返回信息
-                resultmsg.status = false;
-                resultmsg.msg = "地块实况已经存在，是否要重新添加！";
-                resultmsg.data = null;
-                token = request.Headers["Token"];
-            }
-            else
-            {
+            ////查询数据库，判断地块是否存在
+            //string str_select = "select * from tb_field_live where field = @field";
+            //var para = new DbParameter[1];
+            //para[0] = PostgreSQL.NewParameter("@field", live.field);
+            //var qLive = PostgreSQL.ExecuteTQuery<Field_live>(str_select, null, para);
+            //if (qLive != null)
+            //{
+            //    //返回信息
+            //    resultmsg.status = false;
+            //    resultmsg.msg = "地块实况已经存在，是否要重新添加！";
+            //    resultmsg.data = null;
+            //    token = request.Headers["Token"];
+            //}
+            //else
+            //{
                 //数据检查是否超出界限
                 DataAuth auth = new DataAuth();
                 if (auth.field(live.field)&&auth.growthtype(live.growth)&&auth.moisturetype(live.moisture)&&auth.pesttype(live.pest)&&auth.diseasetype(live.disease))
                 {
-                    string str_insert = "insert into tb_field_live(field,growth,moisture,disease,pest,collector,collect_date,gps,picture) values(@field,@growth,@moisture,@disease,@pest,@collector,@collect_date,@gps,@picture) ";
+                //string str_insert =string.Format("insert into tb_field_live(field,growth,moisture,disease,pest,collector,collect_date,gps,picture) values(@field,@growth,@moisture,@disease,@pest,@collector,@collect_date,st_geomfromtext(\'{0}\'),@picture) ", live.gps);
+                string str_insert = "insert into tb_field_live(field,growth,moisture,disease,pest,collector,collect_date,gps,picture) values(@field,@growth,@moisture,@disease,@pest,@collector,@collect_date,@gps,@picture;";
+
                     var trans = PostgreSQL.BeginTransaction();
                     try
                     {
@@ -241,7 +214,7 @@ namespace WebApi.Controllers
                     resultmsg.data = null;
                     token = request.Headers["Token"];
                 }
-            }
+            //}
             PostgreSQL.CloseCon();//关闭数据库
             //添加响应头
             var resultObj = JsonConvert.SerializeObject(resultmsg, Formatting.Indented);

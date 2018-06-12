@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Web;
-
 namespace WebApi.Models
 {
     /// <summary>
@@ -99,6 +94,10 @@ namespace WebApi.Models
     public class UserTask
     {
         /// <summary>
+        /// 主键
+        /// </summary>
+        public int id { get; set; }
+        /// <summary>
         /// 创建人
         /// </summary>
         public int creator { get; set; }
@@ -135,5 +134,43 @@ namespace WebApi.Models
         /// </summary>
         public DateTime processdate { get; set; }
     }
-   
+    /// <summary>
+    /// 信息反馈
+    /// </summary>
+    public class FeedBack
+    {
+        /// <summary>
+        /// 主键
+        /// </summary>
+        public int id { get; set; }
+        /// <summary>
+        /// 用户编号
+        /// </summary>
+        public int userid { get; set; }
+        /// <summary>
+        /// 意见
+        /// </summary>
+        public string suggestion { get; set; }
+        /// <summary>
+        /// 图片链接
+        /// </summary>
+        public string url { get; set; }
+    }
+    /// <summary>
+    /// 图片上传
+    /// </summary>
+    public class Picture
+    {
+        /// <summary>
+        /// 图片地址编号
+        /// </summary>
+        public int id { get; set; }
+
+        /// <summary>
+        /// 图片相对地址
+        /// </summary>
+        public string path { get; set; }
+
+
+    }
 }

@@ -227,4 +227,5 @@ G:\APP开发\ShenNong-API\trunk\WebApi\WebApi\bin\zh-Hans\System.Web.WebPages.De
 G:\APP开发\ShenNong-API\trunk\WebApi\WebApi\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
 G:\APP开发\ShenNong-API\trunk\WebApi\WebApi\obj\Debug\WebApi.dll
 G:\APP开发\ShenNong-API\trunk\WebApi\WebApi\obj\Debug\WebApi.pdb
+G:\APP开发\ShenNong-API\trunk\WebApi\WebApi\obj\Debug\WebApi.csproj.ResolveComReference.cache
 G:\APP开发\ShenNong-API\trunk\WebApi\WebApi\obj\Debug\WebApi.csprojResolveAssemblyReference.cache

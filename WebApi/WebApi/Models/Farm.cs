@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Newtonsoft.Json.Linq;
+using System;
+
 
 namespace WebApi.Models
 {
@@ -113,20 +112,7 @@ namespace WebApi.Models
         /// </summary>
         public DateTime time { get; set; }
     }
-    /// <summary>
-    /// 农情类型类
-    /// </summary>
-    public class RSI_type
-    {
-        /// <summary>
-        /// 农情类型主键
-        /// </summary>
-        public int id { get; set; }
-        /// <summary>
-        /// 农情类型名称
-        /// </summary>
-        public string  rsi_type { get; set; }
-    }
+   
     /// <summary>
     /// 遥感农情信息类
     /// </summary>
@@ -207,27 +193,5 @@ namespace WebApi.Models
         /// </summary>
         public string picture { get; set; }
     }
-    /// <summary>
-    /// 产品等级类
-    /// </summary>
-    public class Rsi_grade
-    {
-        /// <summary>
-        /// 产品等级主键
-        /// </summary>
-        public int id { get; set; }
-        /// <summary>
-        /// 产品等级
-        /// </summary>
-        public int grade { get; set;}
-        /// <summary>
-        /// 农情类型
-        /// </summary>
-        public int rsi_type { get; set; }
-        /// <summary>
-        /// 产品等级名称
-        /// </summary>
-        public string name { get; set; }
-
-    }
+  
 }

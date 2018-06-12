@@ -1,4 +1,6 @@
-﻿using SunGolden.DBUtils;
+﻿using ESRI.ArcGIS.Geometry;
+using NpgsqlTypes;
+using SunGolden.DBUtils;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -28,7 +30,7 @@ namespace WebApi.Models
         /// <summary>
         /// 地块边界
         /// </summary>
-        public string geom { get; set; }
+        public string  geom { get; set; }//NpgsqlTypes.PostgisPolygon PostgisGeometry
         /// <summary>
         /// 地块面积
         /// </summary>
@@ -67,20 +69,7 @@ namespace WebApi.Models
     //    public int currentcrop { get; set; }
     //    public string thumb { get; set; }
     //} 
-    /// <summary>
-    /// 作物类型类
-    /// </summary>
-    public class CropTypes
-    {
-        /// <summary>
-        /// 作物类型主键
-        /// </summary>
-        public int id { get; set; }
-        /// <summary>
-        /// 作物类型名称
-        /// </summary>
-        public string crop_type { get; set; }
-    }
+    
     /// <summary>
     /// 物候期类
     /// </summary>
@@ -97,7 +86,7 @@ namespace WebApi.Models
         /// <summary>
         /// 物候类型编号
         /// </summary>
-        public int phen_type { get; set; }
+        public string phen_type { get; set; }
         /// <summary>
         /// 物候日期
         /// </summary>
@@ -107,5 +96,23 @@ namespace WebApi.Models
         /// </summary>
         public string phen_detail { get; set; }
 
+    }
+    /// <summary>
+    /// 作物生长周期
+    /// </summary>
+    public class Crop_growthday
+    {
+        /// <summary>
+        /// 生长周期id
+        /// </summary>
+        public int id { get; set; }
+        /// <summary>
+        /// 作物类型编号
+        /// </summary>
+        public int crop_type { get; set; }
+        /// <summary>
+        /// 作物生长周期
+        /// </summary>
+        public int growth_days { get; set; }
     }
 }
