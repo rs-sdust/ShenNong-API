@@ -1,9 +1,9 @@
 /*
 Navicat PGSQL Data Transfer
 
-Source Server         : 192.168.2.253_5432
+Source Server         : 192.168.1.253_5432
 Source Server Version : 100100
-Source Host           : 192.168.2.253:5432
+Source Host           : 192.168.1.253:5432
 Source Database       : shennong
 Source Schema         : public
 
@@ -11,7 +11,7 @@ Target Server Type    : PGSQL
 Target Server Version : 100100
 File Encoding         : 65001
 
-Date: 2018-05-16 15:45:44
+Date: 2018-06-08 09:27:09
 */
 
 

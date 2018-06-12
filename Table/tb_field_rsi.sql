@@ -1,9 +1,9 @@
 /*
 Navicat PGSQL Data Transfer
 
-Source Server         : 192.168.2.253_5432
+Source Server         : 192.168.1.253_5432
 Source Server Version : 100100
-Source Host           : 192.168.2.253:5432
+Source Host           : 192.168.1.253:5432
 Source Database       : shennong
 Source Schema         : public
 
@@ -11,7 +11,7 @@ Target Server Type    : PGSQL
 Target Server Version : 100100
 File Encoding         : 65001
 
-Date: 2018-05-15 14:22:46
+Date: 2018-06-08 09:28:32
 */
 
 
@@ -41,6 +41,10 @@ COMMENT ON COLUMN "public"."tb_field_rsi"."value" IS '产品反演的实际数�
 -- Records of tb_field_rsi
 -- ----------------------------
 INSERT INTO "public"."tb_field_rsi" VALUES ('0', '1', '1', '2', '2018-05-11', '2', '12.22');
+INSERT INTO "public"."tb_field_rsi" VALUES ('1', '1', '2', '2', '2018-05-17', '3', '25.3');
+INSERT INTO "public"."tb_field_rsi" VALUES ('2', '1', '3', '2', '2018-05-09', '-1', '0');
+INSERT INTO "public"."tb_field_rsi" VALUES ('3', '12', '22', '2', '2018-05-18', '1', '25');
+INSERT INTO "public"."tb_field_rsi" VALUES ('4', '12', '19', '2', '2018-05-24', '3', '11');
 
 -- ----------------------------
 -- Alter Sequences Owned By 
