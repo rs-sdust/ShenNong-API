@@ -263,7 +263,7 @@ namespace WebApi.Auth
                     int time = Convert.ToInt16(q_phen.Rows[0]["time"]);
                     if (sowdays <= time && sowdays >= 0)
                     {
-                        phenophase = Convert.ToInt16(q_phen.Rows[0]["phen_type"]);
+                        phenophase = Convert.ToInt16(q_phen.Rows[0]["id"]);
                     }
                     else
                     {
@@ -276,7 +276,7 @@ namespace WebApi.Auth
                         //    sum[i] = s;
                         //}
                         #endregion
-                        for (int i = 1; i <= q_phen.Rows.Count; i++)
+                        for (int i = 1; i < q_phen.Rows.Count; i++)
                         {
                             if (sowdays > Convert.ToInt16(q_phen.Rows[i - 1]["time"]) && sowdays <= Convert.ToInt16(q_phen.Rows[i]["time"]))
                             {

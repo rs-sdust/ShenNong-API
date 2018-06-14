@@ -6,7 +6,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>G:\APP开发\shennong\api1</_PublishTargetUrl>
+    <_PublishTargetUrl>G:\APP开发\shennong\api</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="ApplicationInsights.config">
@@ -85,10 +85,10 @@
       <publishTime>04/24/2018 15:02:37</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>06/06/2018 16:08:45</publishTime>
+      <publishTime>06/14/2018 11:30:46</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>06/06/2018 16:08:44</publishTime>
+      <publishTime>06/14/2018 11:30:46</publishTime>
     </File>
     <File Include="bin/Microsoft.AI.Agent.Intercept.dll">
       <publishTime>12/07/2015 19:04:38</publishTime>
@@ -205,7 +205,7 @@
       <publishTime>05/11/2018 11:01:00</publishTime>
     </File>
     <File Include="bin/WebApi.dll">
-      <publishTime>06/06/2018 16:08:21</publishTime>
+      <publishTime>06/14/2018 11:30:26</publishTime>
     </File>
     <File Include="bin/WebApi.pdb">
       <publishTime>05/17/2018 14:55:13</publishTime>
@@ -274,7 +274,7 @@
       <publishTime>04/24/2018 18:06:23</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>06/06/2018 16:08:40</publishTime>
+      <publishTime>06/14/2018 11:30:42</publishTime>
     </File>
     <File Include="Scripts/ai.0.22.9-build00167.js">
       <publishTime>05/11/2018 14:19:39</publishTime>
@@ -325,7 +325,7 @@
       <publishTime>04/24/2018 15:02:27</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>06/06/2018 16:08:39</publishTime>
+      <publishTime>06/14/2018 11:30:40</publishTime>
     </File>
   </ItemGroup>
 </Project>
