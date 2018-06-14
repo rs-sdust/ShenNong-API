@@ -20,7 +20,7 @@ Date: 2018-06-08 09:27:22
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."dic_rsi_type";
 CREATE TABLE "public"."dic_rsi_type" (
-"id" int2 DEFAULT nextval('dic_rsi_type_id_seq'::regclass) NOT NULL,
+"id" serial2 NOT NULL,
 "rsi_type" varchar(10) COLLATE "default" DEFAULT ''::character varying NOT NULL
 )
 WITH (OIDS=FALSE)
