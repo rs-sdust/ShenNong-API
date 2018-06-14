@@ -1,0 +1,1589 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebApi</name>
+    </assembly>
+    <members>
+        <member name="T:WebApi.WebApiConfig">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:WebApi.WebApiConfig.Register(System.Web.Http.HttpConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="config"></param>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.ApiDescriptionExtensions.GetFriendlyId(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Generates an URI-friendly ID for the <see cref="T:System.Web.Http.Description.ApiDescription"/>. E.g. "Get-Values-id_name" instead of "GetValues/{id}?name={name}"
+            </summary>
+            <param name="description">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The ID as a string.</returns>
+        </member>
+        <member name="T:WebApi.Areas.HelpPage.HelpPageConfig">
+            <summary>
+            Use this class to customize the Help Page.
+            For example you can set a custom <see cref="T:System.Web.Http.Description.IDocumentationProvider"/> to supply the documentation
+            or you can provide the samples for the requests/responses.
+            </summary>
+        </member>
+        <member name="T:WebApi.Areas.HelpPage.Controllers.HelpController">
+            <summary>
+            The controller that will handle requests for the help page.
+            </summary>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageConfigurationExtensions.SetDocumentationProvider(System.Web.Http.HttpConfiguration,System.Web.Http.Description.IDocumentationProvider)">
+            <summary>
+            Sets the documentation provider for help page.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="documentationProvider">The documentation provider.</param>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleObjects(System.Web.Http.HttpConfiguration,System.Collections.Generic.IDictionary{System.Type,System.Object})">
+            <summary>
+            Sets the objects that will be used by the formatters to produce sample requests/responses.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sampleObjects">The sample objects.</param>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleRequest(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String)">
+            <summary>
+            Sets the sample request directly for the specified media type and action.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample request.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleRequest(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String,System.String[])">
+            <summary>
+            Sets the sample request directly for the specified media type and action with parameters.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample request.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleResponse(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String)">
+            <summary>
+            Sets the sample request directly for the specified media type of the action.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample response.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleResponse(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String,System.String[])">
+            <summary>
+            Sets the sample response directly for the specified media type of the action with specific parameters.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample response.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleForMediaType(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Sets the sample directly for all actions with the specified media type.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample.</param>
+            <param name="mediaType">The media type.</param>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleForType(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.Type)">
+            <summary>
+            Sets the sample directly for all actions with the specified type and media type.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="type">The parameter type or return type of an action.</param>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualRequestType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String)">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate request samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualRequestType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String,System.String[])">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate request samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualResponseType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String)">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> returned as part of the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate response samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualResponseType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String,System.String[])">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> returned as part of the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate response samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageConfigurationExtensions.GetHelpPageSampleGenerator(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Gets the help page sample generator.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <returns>The help page sample generator.</returns>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageConfigurationExtensions.SetHelpPageSampleGenerator(System.Web.Http.HttpConfiguration,WebApi.Areas.HelpPage.HelpPageSampleGenerator)">
+            <summary>
+            Sets the help page sample generator.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sampleGenerator">The help page sample generator.</param>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageConfigurationExtensions.GetModelDescriptionGenerator(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Gets the model description generator.
+            </summary>
+            <param name="config">The configuration.</param>
+            <returns>The <see cref="T:WebApi.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator"/></returns>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageConfigurationExtensions.GetHelpPageApiModel(System.Web.Http.HttpConfiguration,System.String)">
+            <summary>
+            Gets the model that represents an API displayed on the help page. The model is initialized on the first call and cached for subsequent calls.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="apiDescriptionId">The <see cref="T:System.Web.Http.Description.ApiDescription"/> ID.</param>
+            <returns>
+            An <see cref="T:WebApi.Areas.HelpPage.Models.HelpPageApiModel"/>
+            </returns>
+        </member>
+        <member name="T:WebApi.Areas.HelpPage.ModelDescriptions.ModelDescription">
+            <summary>
+            Describes a type model.
+            </summary>
+        </member>
+        <member name="T:WebApi.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator">
+            <summary>
+            Generates model descriptions for given types.
+            </summary>
+        </member>
+        <member name="T:WebApi.Areas.HelpPage.ModelDescriptions.ModelNameAttribute">
+            <summary>
+            Use this attribute to change the name of the <see cref="T:WebApi.Areas.HelpPage.ModelDescriptions.ModelDescription"/> generated for a type.
+            </summary>
+        </member>
+        <member name="T:WebApi.Areas.HelpPage.Models.HelpPageApiModel">
+            <summary>
+            The model that represents an API displayed on the help page.
+            </summary>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.Models.HelpPageApiModel.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebApi.Areas.HelpPage.Models.HelpPageApiModel"/> class.
+            </summary>
+        </member>
+        <member name="P:WebApi.Areas.HelpPage.Models.HelpPageApiModel.ApiDescription">
+            <summary>
+            Gets or sets the <see cref="P:WebApi.Areas.HelpPage.Models.HelpPageApiModel.ApiDescription"/> that describes the API.
+            </summary>
+        </member>
+        <member name="P:WebApi.Areas.HelpPage.Models.HelpPageApiModel.UriParameters">
+            <summary>
+            Gets or sets the <see cref="T:WebApi.Areas.HelpPage.ModelDescriptions.ParameterDescription"/> collection that describes the URI parameters for the API.
+            </summary>
+        </member>
+        <member name="P:WebApi.Areas.HelpPage.Models.HelpPageApiModel.RequestDocumentation">
+            <summary>
+            Gets or sets the documentation for the request.
+            </summary>
+        </member>
+        <member name="P:WebApi.Areas.HelpPage.Models.HelpPageApiModel.RequestModelDescription">
+            <summary>
+            Gets or sets the <see cref="T:WebApi.Areas.HelpPage.ModelDescriptions.ModelDescription"/> that describes the request body.
+            </summary>
+        </member>
+        <member name="P:WebApi.Areas.HelpPage.Models.HelpPageApiModel.RequestBodyParameters">
+            <summary>
+            Gets the request body parameter descriptions.
+            </summary>
+        </member>
+        <member name="P:WebApi.Areas.HelpPage.Models.HelpPageApiModel.ResourceDescription">
+            <summary>
+            Gets or sets the <see cref="T:WebApi.Areas.HelpPage.ModelDescriptions.ModelDescription"/> that describes the resource.
+            </summary>
+        </member>
+        <member name="P:WebApi.Areas.HelpPage.Models.HelpPageApiModel.ResourceProperties">
+            <summary>
+            Gets the resource property descriptions.
+            </summary>
+        </member>
+        <member name="P:WebApi.Areas.HelpPage.Models.HelpPageApiModel.SampleRequests">
+            <summary>
+            Gets the sample requests associated with the API.
+            </summary>
+        </member>
+        <member name="P:WebApi.Areas.HelpPage.Models.HelpPageApiModel.SampleResponses">
+            <summary>
+            Gets the sample responses associated with the API.
+            </summary>
+        </member>
+        <member name="P:WebApi.Areas.HelpPage.Models.HelpPageApiModel.ErrorMessages">
+            <summary>
+            Gets the error messages associated with this model.
+            </summary>
+        </member>
+        <member name="T:WebApi.Areas.HelpPage.HelpPageSampleGenerator">
+            <summary>
+            This class will generate the samples for the help page.
+            </summary>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageSampleGenerator.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebApi.Areas.HelpPage.HelpPageSampleGenerator"/> class.
+            </summary>
+        </member>
+        <member name="P:WebApi.Areas.HelpPage.HelpPageSampleGenerator.ActualHttpMessageTypes">
+            <summary>
+            Gets CLR types that are used as the content of <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/>.
+            </summary>
+        </member>
+        <member name="P:WebApi.Areas.HelpPage.HelpPageSampleGenerator.ActionSamples">
+            <summary>
+            Gets the objects that are used directly as samples for certain actions.
+            </summary>
+        </member>
+        <member name="P:WebApi.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects">
+            <summary>
+            Gets the objects that are serialized as samples by the supported formatters.
+            </summary>
+        </member>
+        <member name="P:WebApi.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories">
+            <summary>
+            Gets factories for the objects that the supported formatters will serialize as samples. Processed in order,
+            stopping when the factory successfully returns a non-<see langref="null"/> object.
+            </summary>
+            <remarks>
+            Collection includes just <see cref="M:WebApi.Areas.HelpPage.ObjectGenerator.GenerateObject(System.Type)"/> initially. Use
+            <code>SampleObjectFactories.Insert(0, func)</code> to provide an override and
+            <code>SampleObjectFactories.Add(func)</code> to provide a fallback.</remarks>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageSampleGenerator.GetSampleRequests(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Gets the request body samples for a given <see cref="T:System.Web.Http.Description.ApiDescription"/>.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageSampleGenerator.GetSampleResponses(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Gets the response body samples for a given <see cref="T:System.Web.Http.Description.ApiDescription"/>.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageSampleGenerator.GetSample(System.Web.Http.Description.ApiDescription,WebApi.Areas.HelpPage.SampleDirection)">
+            <summary>
+            Gets the request or response body samples.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or for a response.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageSampleGenerator.GetActionSample(System.String,System.String,System.Collections.Generic.IEnumerable{System.String},System.Type,System.Net.Http.Formatting.MediaTypeFormatter,System.Net.Http.Headers.MediaTypeHeaderValue,WebApi.Areas.HelpPage.SampleDirection)">
+            <summary>
+            Search for samples that are provided directly through <see cref="P:WebApi.Areas.HelpPage.HelpPageSampleGenerator.ActionSamples"/>.
+            </summary>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+            <param name="type">The CLR type.</param>
+            <param name="formatter">The formatter.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or for a response.</param>
+            <returns>The sample that matches the parameters.</returns>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageSampleGenerator.GetSampleObject(System.Type)">
+            <summary>
+            Gets the sample object that will be serialized by the formatters. 
+            First, it will look at the <see cref="P:WebApi.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects"/>. If no sample object is found, it will try to create
+            one using <see cref="M:WebApi.Areas.HelpPage.HelpPageSampleGenerator.DefaultSampleObjectFactory(WebApi.Areas.HelpPage.HelpPageSampleGenerator,System.Type)"/> (which wraps an <see cref="T:WebApi.Areas.HelpPage.ObjectGenerator"/>) and other
+            factories in <see cref="P:WebApi.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories"/>.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>The sample object.</returns>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageSampleGenerator.ResolveHttpRequestMessageType(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Resolves the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The type.</returns>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageSampleGenerator.ResolveType(System.Web.Http.Description.ApiDescription,System.String,System.String,System.Collections.Generic.IEnumerable{System.String},WebApi.Areas.HelpPage.SampleDirection,System.Collections.ObjectModel.Collection{System.Net.Http.Formatting.MediaTypeFormatter}@)">
+            <summary>
+            Resolves the type of the action parameter or return value when <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/> is used.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or a response.</param>
+            <param name="formatters">The formatters.</param>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageSampleGenerator.WriteSampleObjectUsingFormatter(System.Net.Http.Formatting.MediaTypeFormatter,System.Object,System.Type,System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Writes the sample object using formatter.
+            </summary>
+            <param name="formatter">The formatter.</param>
+            <param name="value">The value.</param>
+            <param name="type">The type.</param>
+            <param name="mediaType">Type of the media.</param>
+            <returns></returns>
+        </member>
+        <member name="T:WebApi.Areas.HelpPage.HelpPageSampleKey">
+            <summary>
+            This is used to identify the place where the sample should be applied.
+            </summary>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Creates a new <see cref="T:WebApi.Areas.HelpPage.HelpPageSampleKey"/> based on media type.
+            </summary>
+            <param name="mediaType">The media type.</param>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue,System.Type)">
+            <summary>
+            Creates a new <see cref="T:WebApi.Areas.HelpPage.HelpPageSampleKey"/> based on media type and CLR type.
+            </summary>
+            <param name="mediaType">The media type.</param>
+            <param name="type">The CLR type.</param>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageSampleKey.#ctor(WebApi.Areas.HelpPage.SampleDirection,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a new <see cref="T:WebApi.Areas.HelpPage.HelpPageSampleKey"/> based on <see cref="P:WebApi.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>, controller name, action name and parameter names.
+            </summary>
+            <param name="sampleDirection">The <see cref="P:WebApi.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue,WebApi.Areas.HelpPage.SampleDirection,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a new <see cref="T:WebApi.Areas.HelpPage.HelpPageSampleKey"/> based on media type, <see cref="P:WebApi.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>, controller name, action name and parameter names.
+            </summary>
+            <param name="mediaType">The media type.</param>
+            <param name="sampleDirection">The <see cref="P:WebApi.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="P:WebApi.Areas.HelpPage.HelpPageSampleKey.ControllerName">
+            <summary>
+            Gets the name of the controller.
+            </summary>
+            <value>
+            The name of the controller.
+            </value>
+        </member>
+        <member name="P:WebApi.Areas.HelpPage.HelpPageSampleKey.ActionName">
+            <summary>
+            Gets the name of the action.
+            </summary>
+            <value>
+            The name of the action.
+            </value>
+        </member>
+        <member name="P:WebApi.Areas.HelpPage.HelpPageSampleKey.MediaType">
+            <summary>
+            Gets the media type.
+            </summary>
+            <value>
+            The media type.
+            </value>
+        </member>
+        <member name="P:WebApi.Areas.HelpPage.HelpPageSampleKey.ParameterNames">
+            <summary>
+            Gets the parameter names.
+            </summary>
+        </member>
+        <member name="P:WebApi.Areas.HelpPage.HelpPageSampleKey.SampleDirection">
+            <summary>
+            Gets the <see cref="P:WebApi.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.
+            </summary>
+        </member>
+        <member name="T:WebApi.Areas.HelpPage.ImageSample">
+            <summary>
+            This represents an image sample on the help page. There's a display template named ImageSample associated with this class.
+            </summary>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.ImageSample.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebApi.Areas.HelpPage.ImageSample"/> class.
+            </summary>
+            <param name="src">The URL of an image.</param>
+        </member>
+        <member name="T:WebApi.Areas.HelpPage.InvalidSample">
+            <summary>
+            This represents an invalid sample on the help page. There's a display template named InvalidSample associated with this class.
+            </summary>
+        </member>
+        <member name="T:WebApi.Areas.HelpPage.ObjectGenerator">
+            <summary>
+            This class will create an object of a given type and populate it with sample data.
+            </summary>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.ObjectGenerator.GenerateObject(System.Type)">
+            <summary>
+            Generates an object for a given type. The type needs to be public, have a public default constructor and settable public properties/fields. Currently it supports the following types:
+            Simple types: <see cref="T:System.Int32"/>, <see cref="T:System.String"/>, <see cref="T:System.Enum"/>, <see cref="T:System.DateTime"/>, <see cref="T:System.Uri"/>, etc.
+            Complex types: POCO types.
+            Nullables: <see cref="T:System.Nullable`1"/>.
+            Arrays: arrays of simple types or complex types.
+            Key value pairs: <see cref="T:System.Collections.Generic.KeyValuePair`2"/>
+            Tuples: <see cref="T:System.Tuple`1"/>, <see cref="T:System.Tuple`2"/>, etc
+            Dictionaries: <see cref="T:System.Collections.Generic.IDictionary`2"/> or anything deriving from <see cref="T:System.Collections.Generic.IDictionary`2"/>.
+            Collections: <see cref="T:System.Collections.Generic.IList`1"/>, <see cref="T:System.Collections.Generic.IEnumerable`1"/>, <see cref="T:System.Collections.Generic.ICollection`1"/>, <see cref="T:System.Collections.IList"/>, <see cref="T:System.Collections.IEnumerable"/>, <see cref="T:System.Collections.ICollection"/> or anything deriving from <see cref="T:System.Collections.Generic.ICollection`1"/> or <see cref="T:System.Collections.IList"/>.
+            Queryables: <see cref="T:System.Linq.IQueryable"/>, <see cref="T:System.Linq.IQueryable`1"/>.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>An object of the given type.</returns>
+        </member>
+        <member name="T:WebApi.Areas.HelpPage.SampleDirection">
+            <summary>
+            Indicates whether the sample is used for request or response
+            </summary>
+        </member>
+        <member name="T:WebApi.Areas.HelpPage.TextSample">
+            <summary>
+            This represents a preformatted text sample on the help page. There's a display template named TextSample associated with this class.
+            </summary>
+        </member>
+        <member name="T:WebApi.Areas.HelpPage.XmlDocumentationProvider">
+            <summary>
+            A custom <see cref="T:System.Web.Http.Description.IDocumentationProvider"/> that reads the API documentation from an XML documentation file.
+            </summary>
+        </member>
+        <member name="M:WebApi.Areas.HelpPage.XmlDocumentationProvider.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebApi.Areas.HelpPage.XmlDocumentationProvider"/> class.
+            </summary>
+            <param name="documentPath">The physical path to XML document.</param>
+        </member>
+        <member name="M:WebApi.Auth.AuthFilterOutside.OnAuthorization(System.Web.Http.Controllers.HttpActionContext)">
+            <summary>
+            重写基类的验证方式，加入我们自定义的Ticket验证 
+            </summary>
+            <param name="actionContext">请求消息</param>
+        </member>
+        <member name="M:WebApi.Auth.AuthFilterOutside.ValidateTicket(System.String)">
+            <summary>
+            校验票据（数据库数据匹配）
+            </summary>
+            <param name="encryptToken">令牌</param>
+            <returns></returns>
+        </member>
+        <member name="T:WebApi.Auth.CustomMultipartFormDataStreamProvider">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:WebApi.Auth.CustomMultipartFormDataStreamProvider.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="path"></param>
+        </member>
+        <member name="M:WebApi.Auth.CustomMultipartFormDataStreamProvider.GetLocalFileName(System.Net.Http.Headers.HttpContentHeaders)">
+            <summary>
+            
+            </summary>
+            <param name="headers"></param>
+            <returns></returns>
+        </member>
+        <member name="T:WebApi.Auth.DataAuth">
+            <summary>
+            数据验证
+            </summary>
+        </member>
+        <member name="M:WebApi.Auth.DataAuth.crop(System.Int32)">
+            <summary>
+            作物类型
+            </summary>
+            <param name="cropid">作物类型id</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Auth.DataAuth.farm(System.Int32)">
+            <summary>
+            农场类型
+            </summary>
+            <param name="farmid">农场类型id</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Auth.DataAuth.field(System.Int32)">
+            <summary>
+            地块类型
+            </summary>
+            <param name="fieldid">地块编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Auth.DataAuth.user(System.Int32)">
+            <summary>
+            用户类型
+            </summary>
+            <param name="userid">用户id</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Auth.DataAuth.rsitype(System.Int32)">
+            <summary>
+            农情类型
+            </summary>
+            <param name="rsi_typeid">农情类型id</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Auth.DataAuth.rsigrade(System.Int32)">
+            <summary>
+            农情等级类型
+            </summary>
+            <param name="rsi_typeid">农情等级类型id</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Auth.DataAuth.newstype(System.Int32)">
+            <summary>
+            新闻资讯类型
+            </summary>
+            <param name="news_typeid">新闻资讯类型id</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Auth.DataAuth.growthtype(System.Int32)">
+            <summary>
+            长势类型
+            </summary>
+            <param name="growth_typeid">长势类型id</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Auth.DataAuth.moisturetype(System.Int32)">
+            <summary>
+            土壤湿度类型
+            </summary>
+            <param name="moisture_typeid">土壤湿度类型id</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Auth.DataAuth.pesttype(System.Int32)">
+            <summary>
+            虫害类型
+            </summary>
+            <param name="pest_typeid">虫害类型id</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Auth.DataAuth.diseasetype(System.Int32)">
+            <summary>
+            病害类型
+            </summary>
+            <param name="disease_typeid">病害类型id</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Auth.DataAuth.RoleType(System.String)">
+            <summary>
+            获取token里role的值
+            </summary>
+            <param name="token">令牌</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Auth.DataAuth.phentype(System.DateTime,System.Int32)">
+            <summary>
+            根据种植时间和当前作物获取当前时间的物候期
+            </summary>
+            <param name="date"></param>
+            <param name="currentcrop"></param>
+            <returns></returns>
+        </member>
+        <member name="T:WebApi.Controllers.DicController">
+            <summary>
+            字典表信息接口
+            </summary>
+        </member>
+        <member name="M:WebApi.Controllers.DicController.GetCrops">
+            <summary>
+            获取作物类型列表
+            </summary>
+            <returns>作物列表</returns>
+        </member>
+        <member name="M:WebApi.Controllers.DicController.GetDiseaseType">
+            <summary>
+            获取作物病害列表
+            </summary>
+            <returns>作物病害列表</returns>
+        </member>
+        <member name="M:WebApi.Controllers.DicController.GetGrowthType">
+            <summary>
+            获取作物长势列表
+            </summary>
+            <returns>作物长势列表</returns>
+        </member>
+        <member name="M:WebApi.Controllers.DicController.GetMoistureType">
+            <summary>
+            获取土壤湿度列表
+            </summary>
+            <returns>土壤湿度列表</returns>
+        </member>
+        <member name="M:WebApi.Controllers.DicController.GetNewsType">
+            <summary>
+            获取资讯类型列表
+            </summary>
+            <returns>资讯类型列表</returns>
+        </member>
+        <member name="M:WebApi.Controllers.DicController.GetPestType">
+            <summary>
+            获取虫害类型列表
+            </summary>
+            <returns>虫害类型列表</returns>
+        </member>
+        <member name="M:WebApi.Controllers.DicController.GetRsiGrade">
+            <summary>
+            获取产品等级列表
+            </summary>
+            <returns>产品等级列表</returns>
+        </member>
+        <member name="M:WebApi.Controllers.DicController.GetRsiType">
+            <summary>
+            获取农情类型表
+            </summary>
+            <returns>农情列表</returns>
+        </member>
+        <member name="T:WebApi.Controllers.FarmController">
+            <summary>
+            农场相关接口
+            </summary>
+        </member>
+        <member name="M:WebApi.Controllers.FarmController.GetFarms(System.String)">
+            <summary>
+            根据农场地址获取农场列表
+            </summary>
+            <param name="address">农场地址</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.FarmController.GetFarm(System.Int32)">
+            <summary>
+            获取指定农场信息
+            </summary>
+            <param name="id">农场主键</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.FarmController.GetFarmbrief(System.String)">
+            <summary>
+            获取农场简报
+            </summary>
+            <param name="farmid">农场id</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.FarmController.QueryFarm(System.String)">
+            <summary>
+            根据农场名称查询农场信息
+            </summary>
+            <param name="name">农场名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.FarmController.CreatFarm(WebApi.Models.Farm)">
+            <summary>
+            创建农场
+            </summary>
+            <param name="farm">农场类</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.FarmController.UpdateFarm(WebApi.Models.Farm)">
+            <summary>
+            更新指定农场信息
+            </summary>
+            <param name="farm">农场类</param>
+            <returns></returns>
+        </member>
+        <member name="T:WebApi.Controllers.FarmworkController">
+            <summary>
+            农情相关接口
+            </summary>
+        </member>
+        <member name="M:WebApi.Controllers.FarmworkController.GetAgricultureinfo(System.Int32,System.Int32)">
+            <summary>
+            获取指定农情产品信息表
+            </summary>
+            <param name="farm">农场编号</param>
+            <param name="type">农情类型编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.FarmworkController.GetFieldLive(System.Int32)">
+            <summary>
+            获取指定地块的实况信息
+            </summary>
+            <param name="field">地块编号</param>
+            <returns>地块实况信息列表</returns>
+        </member>
+        <member name="M:WebApi.Controllers.FarmworkController.AddFieldLive(WebApi.Models.Field_live)">
+            <summary>
+            添加指定地块的实况信息
+            </summary>
+            <param name="live">地块实况信息类</param>
+            <returns></returns>
+        </member>
+        <member name="T:WebApi.Controllers.FieldsController">
+            <summary>
+            地块相关接口
+            </summary>
+        </member>
+        <member name="M:WebApi.Controllers.FieldsController.GetFields(System.Int32)">
+            <summary>
+            获取指定农场的地块列表
+            </summary>
+            <param name="farmid">农场编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.FieldsController.AddField(WebApi.Models.Field)">
+            <summary>
+            添加地块
+            </summary>
+            <param name="field">地块类</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.FieldsController.UpdateField(WebApi.Models.Field)">
+            <summary>
+            更新指定地块作物信息
+            </summary>
+            <param name="field">地块类</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.FieldsController.BatchField(WebApi.Models.Field)">
+            <summary>
+            批量修改地块作物类型
+            </summary>
+            <param name="field">地块类</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.FieldsController.DeleteField(System.Int32)">
+            <summary>
+            删除指定地块信息
+            </summary>
+            <param name="id">地块编号</param>
+            <returns></returns>
+        </member>
+        <member name="T:WebApi.Controllers.NewsController">
+            <summary>
+             发现新闻资讯和市场相关接口
+            </summary>
+        </member>
+        <member name="M:WebApi.Controllers.NewsController.GetNewsType(System.Int32)">
+            <summary>
+            获取指定类型的新闻资讯信息
+            </summary>
+            <param name="newstype">资讯类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.NewsController.GetMarket(System.Int32)">
+            <summary>
+            获取市场行情信息
+            </summary>
+            <param name="crop_type">作物类型编号</param>
+            <returns></returns>
+        </member>
+        <member name="T:WebApi.Controllers.PhenophaseController">
+            <summary>
+            物候期相关接口
+            </summary>
+        </member>
+        <member name="M:WebApi.Controllers.PhenophaseController.GetFieldPhenophase(System.Int32,System.Int32)">
+            <summary>
+            获取指定作物的物候期详情
+            </summary>
+            <param name="crop_type">作物类型编号</param>
+            <param name="phen_type">物候类型编号</param>
+            <returns></returns> 
+        </member>
+        <member name="M:WebApi.Controllers.PhenophaseController.GetFarm_phen(System.Int32)">
+            <summary>
+            获取指定农场主要作物的物候期
+            </summary>
+            <param name="farmid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.PhenophaseController.GetCropGrowthDay(System.Int32)">
+            <summary>
+            获取指定作物的生长周期
+            </summary>
+            <param name="croptype"></param>
+            <returns></returns>
+        </member>
+        <member name="T:WebApi.Controllers.UploadPictureController">
+            <summary>
+            图片上传接口
+            </summary>
+        </member>
+        <member name="M:WebApi.Controllers.UploadPictureController.PostUpload">
+            <summary>
+            上传图片
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:WebApi.Controllers.TaskController">
+            <summary>
+            任务消息相关接口
+            </summary>
+        </member>
+        <member name="M:WebApi.Controllers.TaskController.GetUserTask(System.Int32)">
+            <summary>
+            获取指定用户的所有任务信息
+            </summary>
+            <param name="creator"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.TaskController.GetFarmerTask(System.Int32)">
+            <summary>
+            获取指定农场的所有任务信息
+            </summary>
+            <param name="examiner">审查人编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.TaskController.CreateTask(WebApi.Models.UserTask)">
+            <summary>
+            创建申请加入农场任务
+            </summary>
+            <param name="task">待处理通知任务</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.TaskController.ProcessTask(WebApi.Models.UserTask)">
+            <summary>
+            农场主处理任务 
+            </summary>
+            <param name="task">任务类</param>
+            <returns></returns>
+        </member>
+        <member name="T:WebApi.Controllers.UserController">
+            <summary>
+            用户相关操作
+            </summary>
+        </member>
+        <member name="M:WebApi.Controllers.UserController.IsExist(System.String)">
+            <summary>
+            判断用户是否存在
+            </summary>
+            <param name="mobile"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.UserController.Register(WebApi.Models.User)">
+            <summary>
+            注册
+            </summary>
+            <param name="user">用户类</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.UserController.Login(WebApi.Models.User)">
+            <summary>
+            登录
+            </summary>
+            <param name="user">用户类</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.UserController.UpdateUser(WebApi.Models.User)">
+            <summary>
+            编辑用户资料
+            </summary>
+            <param name="user">用户类</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.UserController.GetUsers(System.Int32)">
+            <summary>
+            获取指定农场的所有用户,即我的伙伴
+            </summary>
+            <param name="farmid">农场id</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.UserController.CreateFeedback(WebApi.Models.FeedBack)">
+            <summary>
+            意见反馈
+            </summary>
+            <param name="feed">反馈类</param>
+            <returns></returns>
+        </member>
+        <member name="T:WebApi.Models.CropTypes">
+            <summary>
+            作物类型类
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.CropTypes.id">
+            <summary>
+            作物类型主键
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.CropTypes.crop_type">
+            <summary>
+            作物类型名称
+            </summary>
+        </member>
+        <member name="T:WebApi.Models.DiseaseTypes">
+            <summary>
+            病害类型类
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.DiseaseTypes.id">
+            <summary>
+            病害类型主键
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.DiseaseTypes.disease_type">
+            <summary>
+            病害类型名称
+            </summary>
+        </member>
+        <member name="T:WebApi.Models.GrowthTypes">
+            <summary>
+            长势类型类
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.GrowthTypes.id">
+            <summary>
+            长势类型主键
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.GrowthTypes.growth_type">
+            <summary>
+            长势类型名称
+            </summary>
+        </member>
+        <member name="T:WebApi.Models.MoistureTypes">
+            <summary>
+            土壤湿度类型类
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.MoistureTypes.id">
+            <summary>
+            土壤湿度类型主键
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.MoistureTypes.moisture_type">
+            <summary>
+            土壤湿度类型名称
+            </summary>
+        </member>
+        <member name="T:WebApi.Models.NewsTypes">
+            <summary>
+            资讯类型类
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.NewsTypes.id">
+            <summary>
+            资讯类型主键
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.NewsTypes.news_type">
+            <summary>
+            资讯类型名称
+            </summary>
+        </member>
+        <member name="T:WebApi.Models.PestTypes">
+            <summary>
+            虫害类型类
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.PestTypes.id">
+            <summary>
+            虫害类型主键
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.PestTypes.pest_type">
+            <summary>
+            虫害类型名称
+            </summary>
+        </member>
+        <member name="T:WebApi.Models.RsiGrade">
+            <summary>
+            产品等级字典类
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.RsiGrade.id">
+            <summary>
+            产品等级主键
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.RsiGrade.grade">
+            <summary>
+            产品等级
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.RsiGrade.rsi_type">
+            <summary>
+            农情类型
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.RsiGrade.name">
+            <summary>
+            产品等级名称
+            </summary>
+        </member>
+        <member name="T:WebApi.Models.RsiTypes">
+            <summary>
+            农情类型字典类
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.RsiTypes.id">
+            <summary>
+            农情类型主键
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.RsiTypes.rsi_type">
+            <summary>
+            农情类型名称
+            </summary>
+        </member>
+        <member name="T:WebApi.Models.Farm">
+            <summary>
+            农场类
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Farm.id">
+            <summary>
+            农场主键
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Farm.name">
+            <summary>
+            农场名称
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Farm.address">
+            <summary>
+            农场地址
+            </summary>
+        </member>
+        <member name="T:WebApi.Models.Farmwork">
+            <summary>
+            农情信息类
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Farmwork.field">
+            <summary>
+            地块编号
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Farmwork.type">
+            <summary>
+            农情类型编号
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Farmwork.creator">
+            <summary>
+            创建人
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Farmwork.operater">
+            <summary>
+            操作人
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Farmwork.material">
+            <summary>
+            投入品（类型，数量）
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Farmwork.labor_num">
+            <summary>
+            投入人工
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Farmwork.labor_cost">
+            <summary>
+            人工费用
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Farmwork.machine">
+            <summary>
+            设备（类型，数量）
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Farmwork.createdate">
+            <summary>
+            创建日期
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Farmwork.plandate">
+            <summary>
+            计划完成日期
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Farmwork.actualdate">
+            <summary>
+            完成日期
+            </summary>
+        </member>
+        <member name="T:WebApi.Models.Market">
+            <summary>
+            市场行情类
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Market.id">
+            <summary>
+            市场行情主键
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Market.crop_type">
+            <summary>
+            作物类型编号
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Market.crop_price">
+            <summary>
+            作物价格
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Market.time">
+            <summary>
+            日期
+            </summary>
+        </member>
+        <member name="T:WebApi.Models.Field_rsi">
+            <summary>
+            遥感农情信息类
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Field_rsi.id">
+            <summary>
+            农情主键
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Field_rsi.farm">
+            <summary>
+            农场编号
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Field_rsi.field">
+            <summary>
+            地块编号
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Field_rsi.type">
+            <summary>
+            农情类型编号
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Field_rsi.date">
+            <summary>
+            日期
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Field_rsi.grade">
+            <summary>
+            产品等级
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Field_rsi.value">
+            <summary>
+            产品数值
+            </summary>
+        </member>
+        <member name="T:WebApi.Models.Field_live">
+            <summary>
+            地块实况信息类
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Field_live.id">
+            <summary>
+            地块实况主键
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Field_live.field">
+            <summary>
+            地块编号
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Field_live.growth">
+            <summary>
+            作物长势编号
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Field_live.moisture">
+            <summary>
+            土壤湿度编号
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Field_live.disease">
+            <summary>
+            病害类型
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Field_live.pest">
+            <summary>
+            虫害类型
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Field_live.collector">
+            <summary>
+            采集人
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Field_live.collect_date">
+            <summary>
+            采集时间
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Field_live.gps">
+            <summary>
+            地理位置
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Field_live.picture">
+            <summary>
+            图片链接
+            </summary>
+        </member>
+        <member name="T:WebApi.Models.Field">
+            <summary>
+            地块类
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Field.id">
+            <summary>
+            地块主键
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Field.farm">
+            <summary>
+            农场编号
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Field.name">
+            <summary>
+            地块名称
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Field.geom">
+            <summary>
+            地块边界
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Field.area">
+            <summary>
+            地块面积
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Field.createdate">
+            <summary>
+            创建日期
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Field.currentcrop">
+            <summary>
+            当前作物
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Field.sowdate">
+            <summary>
+            播种时间
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Field.phenophase">
+            <summary>
+            物候期
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Field.thumb">
+            <summary>
+            地块缩略图
+            </summary>
+        </member>
+        <member name="T:WebApi.Models.Phenophase">
+            <summary>
+            物候期类
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Phenophase.id">
+            <summary>
+            物候期主键
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Phenophase.crop_type">
+            <summary>
+            作物类型编号
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Phenophase.phen_type">
+            <summary>
+            物候类型编号
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Phenophase.time">
+            <summary>
+            物候日期
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Phenophase.phen_detail">
+            <summary>
+            物候详情
+            </summary>
+        </member>
+        <member name="T:WebApi.Models.Crop_growthday">
+            <summary>
+            作物生长周期
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Crop_growthday.id">
+            <summary>
+            生长周期id
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Crop_growthday.crop_type">
+            <summary>
+            作物类型编号
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Crop_growthday.growth_days">
+            <summary>
+            作物生长周期
+            </summary>
+        </member>
+        <member name="T:WebApi.Models.News">
+            <summary>
+            新闻资讯类型
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.News.id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.News.news_type">
+            <summary>
+            资讯类型
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.News.summary">
+            <summary>
+            资讯简述
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.News.news_date">
+            <summary>
+            资讯日期
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.News.url">
+            <summary>
+            资讯链接
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.News.thumb">
+            <summary>
+            缩略图
+            </summary>
+        </member>
+        <member name="T:WebApi.Models.User">
+            <summary>
+            用户类
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.User.id">
+            <summary>
+            用户主键
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.User.name">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.User.mobile">
+            <summary>
+            手机号
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.User.im_pwd">
+            <summary>
+            即时密码
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.User.role">
+            <summary>
+            角色编号
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.User.farm">
+            <summary>
+            农场编号
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.User.icon">
+            <summary>
+            用户头像
+            </summary>
+        </member>
+        <member name="T:WebApi.Models.ResultMsg`1">
+            <summary>
+            返回信息
+            </summary>
+            <typeparam name="T">数据</typeparam>
+        </member>
+        <member name="P:WebApi.Models.ResultMsg`1.status">
+            <summary>
+            处理状态
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.ResultMsg`1.msg">
+            <summary>
+            返回消息
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.ResultMsg`1.data">
+            <summary>
+            返回数据信息
+            </summary>
+        </member>
+        <member name="T:WebApi.Models.Userinfo">
+            <summary>
+            用户信息
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Userinfo.userid">
+            <summary>
+            用户编号
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Userinfo.password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Userinfo.nick">
+            <summary>
+            别名
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Userinfo.mobile">
+            <summary>
+            手机号
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Userinfo.email">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Userinfo.icon_url">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="T:WebApi.Models.UserTask">
+            <summary>
+            待处理通知任务
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.UserTask.id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.UserTask.creator">
+            <summary>
+            创建人
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.UserTask.farm">
+            <summary>
+            农场编号
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.UserTask.examiner">
+            <summary>
+            审查人
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.UserTask.type">
+            <summary>
+            任务类型
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.UserTask.description">
+            <summary>
+            任务描述
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.UserTask.state">
+            <summary>
+            处理状态
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.UserTask.agree">
+            <summary>
+            是否通过
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.UserTask.createdate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.UserTask.processdate">
+            <summary>
+            处理时间
+            </summary>
+        </member>
+        <member name="T:WebApi.Models.FeedBack">
+            <summary>
+            信息反馈
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.FeedBack.id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.FeedBack.userid">
+            <summary>
+            用户编号
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.FeedBack.suggestion">
+            <summary>
+            意见
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.FeedBack.url">
+            <summary>
+            图片链接
+            </summary>
+        </member>
+        <member name="T:WebApi.Models.Picture">
+            <summary>
+            图片上传
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Picture.id">
+            <summary>
+            图片地址编号
+            </summary>
+        </member>
+        <member name="P:WebApi.Models.Picture.path">
+            <summary>
+            图片相对地址
+            </summary>
+        </member>
+    </members>
+</doc>
